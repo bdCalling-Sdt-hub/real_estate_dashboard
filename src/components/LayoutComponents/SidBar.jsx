@@ -4,88 +4,119 @@ import create from "../../assets/routerImg/create.png";
 import settings from "../../assets/routerImg/settings.png";
 import subscription from "../../assets/routerImg/subscription.png";
 import user from "../../assets/routerImg/user.png";
-import logo from "../../assets/header/logo.png";
+import logo from "../../assets/header/logo1.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { FaChevronRight } from "react-icons/fa";
+import { FaChevronRight, FaJediOrder } from "react-icons/fa";
 import { IoIosLogIn } from "react-icons/io";
+import { MdOutlineCategory, MdOutlineDashboard } from "react-icons/md";
+import { AiOutlineMail } from "react-icons/ai";
+import { PiClockUserLight, PiInvoice } from "react-icons/pi";
+import { RiImageEditLine, RiMoneyDollarBoxLine } from "react-icons/ri";
+import { GoPackage } from "react-icons/go";
+import { LiaUsersSolid } from "react-icons/lia";
+import { IoBagOutline, IoSettingsOutline } from "react-icons/io5";
+
 
 const items = [
   {
     key: "dashboard",
     label: "Dashboard",
-    icon: dashboard,
+    icon: <MdOutlineDashboard />,
     link: "/",
   },
   {
-    key: "userManagement",
-    label: "User Management",
-    icon: user,
-    link: "/dashboard/UserManagement",
+    key: "messageMail",
+    label: "Message/Mail",
+    icon: <AiOutlineMail />,
+    link: "/dashboard/message-mail",
   },
   {
-    key: "creatorManagement",
-    label: "Creator Management",
-    icon: create,
-    link: "/dashboard/CreatorManagement",
+    key: "orderManagement",
+    label: "Order Management",
+    icon: <FaJediOrder />,
+    link: "/dashboard/order-management",
+  },
+  // {
+  //   key: "categoriesManagement",
+  //   label: "Categories Management",
+  //   icon: categorie,
+  //   link: "/dashboard/CategoriesManagement/Categories",
+  //   children: [
+  //     {
+  //       key: "categoriesManagement",
+  //       label: "Categories",
+  //       link: "/dashboard/CategoriesManagement/Categories",
+  //     },
+  //     {
+  //       key: "subcategory",
+  //       label: "Subcategory",
+  //       link: "/dashboard/CategoriesManagement/Subcategory",
+  //     },
+  //   ],
+  // },
+  {
+    key: "clientManagement",
+    label: "Client Management",
+    icon: <PiClockUserLight />,
+    link: "/dashboard/client-management",
   },
   {
-    key: "categoriesManagement",
-    label: "Categories Management",
-    icon: categorie,
-    link: "/dashboard/CategoriesManagement/Categories",
-    children: [
-      {
-        key: "categoriesManagement",
-        label: "Categories",
-        link: "/dashboard/CategoriesManagement/Categories",
-      },
-      {
-        key: "subcategory",
-        label: "Subcategory",
-        link: "/dashboard/CategoriesManagement/Subcategory",
-      },
-    ],
+    key: "Services",
+    label: "Services",
+    icon: <RiImageEditLine />,
+    link: "/dashboard/services",
+  },
+  
+  {
+    key: "Packages",
+    label: "Packages",
+    icon: <GoPackage />,
+    link: "/dashboard/packages",
   },
   {
-    key: "subscription",
-    label: "Subscription",
-    icon: subscription,
-    link: "/dashboard/Subscription",
+    key: "ServiceCategories",
+    label: "Service Categories",
+    icon: <MdOutlineCategory />,
+    link: "/dashboard/service-categories",
   },
   {
-    key: "profile",
+    key: "PricingGroup",
+    label: "Pricing Group",
+    icon: <RiMoneyDollarBoxLine /> ,
+    link: "/dashboard/pricing-group",
+  },
+  {
+    key: "report",
+    label: "Report",
+    icon: <PiInvoice />,
+    link: "/dashboard/report",
+  },
+  {
+    key: "InvoiceOrder",
+    label: "Invoice Order",
+    icon: <PiInvoice />,
+    link: "/dashboard/invoice-order",
+  },
+  {
+    key: "Team-Member",
+    label: "Team-Member",
+    icon: <LiaUsersSolid />,
+    link: "/dashboard/team-member",
+  },
+  {
+    key: "TaskManagement",
+    label: "Task Management",
+    icon: <IoBagOutline />,
+    link: "/dashboard/task-managementPage",
+  },
+  {
+    key: "Settings",
     label: "Settings",
-    icon: settings,
-    link: "/dashboard/Settings/profile",
-    children: [
-      {
-        key: "profile",
-        label: "Profile",
-        link: "/dashboard/Settings/profile",
-      },
-      {
-        key: "terms",
-        label: "Terms & Condition",
-        link: "/dashboard/Settings/Terms&Condition",
-      },
-      {
-        key: "privacy",
-        label: "Privacy Policy",
-        link: "/dashboard/Settings/PrivacyPolicy",
-      },
-      {
-        key: "faq",
-        label: "FAQ",
-        link: "/dashboard/Settings/FAQ",
-      },
-      {
-        key: "about",
-        label: "About Us",
-        link: "/dashboard/Settings/aboutUs",
-      },
-    ],
+    icon: <IoSettingsOutline />,
+    link: "/dashboard/settings",
   },
+  
 ];
 
 const SidBar = () => {
@@ -132,10 +163,13 @@ const SidBar = () => {
   };
 
   return (
-    <div className="custom-sidebar h-full bg-[#050505]">
+    <div className="custom-sidebar h-full bg-[#FEFEFE] shadow-sm">
       {/* Logo */}
-      <div className="custom-sidebar-logo flex justify-center">
+      <div className="custom-sidebar-logo flex justify-center mt-5 mb-8">
         <img src={logo} alt="Logo" className="w-[160px]" />
+      </div>
+      <div className="mx-5 mb-6">
+      <Link to={'/dashboard/create-new-order'}><button className="bg-[#2A216D] text-white py-2 w-full rounded">+ Create Order</button></Link>
       </div>
 
       {/* Sidebar Menu */}
@@ -144,24 +178,24 @@ const SidBar = () => {
           <div key={item.key}>
             <Link
               to={item.link}
-              className={`menu-item my-4 mx-5 py-3 px-3 flex items-center cursor-pointer ${
+              className={`menu-item my-1 mr-5 py-3 px-3 pl-9 flex items-center cursor-pointer ${
                 selectedKey === item.key
-                  ? "bg-[#EDC4C5] rounded-md"
-                  : "bg-white rounded-md hover:bg-gray-200"
+                  ? "bg-[#EAE9F0] rounded-r-md"
+                  : "rounded-r-md  hover:bg-gray-200"
               }`}
               onClick={(e) => {
                 if (item.children) {
-                  e.preventDefault(); // Prevent navigation if it has children
-                  onParentClick(item.key); // Toggle expanded state
+                  e.preventDefault(); 
+                  onParentClick(item.key); 
                 } else {
-                  setSelectedKey(item.key); // Set the selected key for normal links
+                  setSelectedKey(item.key); 
                 }
               }}
             >
-              <img src={item.icon} alt={item.label} className="w-5 h-5 mr-3" />
+              <span  className="w-4 h-4 mr-3" >{item.icon}  </span>
               <span className="block w-full text-black">{item.label}</span>
 
-              {/* Show dropdown arrow if children exist */}
+
               {item.children && (
                 <FaChevronRight
                   className={`ml-auto transform transition-all duration-300 ${
@@ -171,7 +205,7 @@ const SidBar = () => {
               )}
             </Link>
 
-            {/* Show children menu if expanded */}
+        
             {item.children && (
               <div
                 className={`children-menu bg-white -my-2 mx-5  text-black transition-all duration-300 ${
@@ -194,8 +228,8 @@ const SidBar = () => {
                         : "hover:bg-gray-200"
                     }`}
                     onClick={() => {
-                      setSelectedKey(child.key); // Set the selected key for children
-                      setExpandedKeys([]); // Close all expanded items
+                      setSelectedKey(child.key); 
+                      setExpandedKeys([]); 
                     }}
                   >
                     <span className="block w-full text-black">

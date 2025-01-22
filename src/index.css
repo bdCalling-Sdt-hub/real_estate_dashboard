@@ -3,7 +3,9 @@
 @tailwind utilities;
 
 
-
+:root{
+  background-color: #F1EFFB;
+}
 
 .children-menu {
   overflow: hidden;
@@ -11,18 +13,10 @@
 }
 
 
-
-
-
-
-
 select option {
   background-color: #EDC4C5;
 
 }
-
-
-
 
 
 /* Remove all borders from the Ant Design Table */
