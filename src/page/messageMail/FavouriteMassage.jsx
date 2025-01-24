@@ -90,17 +90,16 @@ export const FavouriteMassage = () => {
       width: '10%',
     },
     {
-      title: 'Action',
-      key: 'action',
-      render: () => (
-        <Button
-          shape="circle"
-          icon={<DeleteOutlined />}
-          style={{ color: '#FF4D4F' }}
-        />
-      ),
-      width: '5%',
-    },
+          title: 'Action',
+          key: 'action',
+          render: () => (
+            <button
+              
+              className=''
+            ><DeleteOutlined /></button>
+          ),
+          width: '5%',
+        },
   ];
 
   return (

@@ -18,56 +18,56 @@ const servicesData = [
   {
     title: "Luxury Packages",
     description: "Our most popular package including our most popular service",
-    features: ["Photos", "Videos", "Floor Plan"],
+  
     price: "$25",
     images: [img1, img2, img3],
   },
   {
     title: "Premium Packages",
     description: "Our most popular package including our most popular service",
-    features: ["Photos", "Cinematic Video", "Floor Plan"],
+    
     price: "$45",
     images: [img4, img5, img6],
   },
   {
     title: "Luxury Packages",
     description: "Our most popular package including our most popular service",
-    features: ["Photos", "Highlight Video", "Cinematic Video"],
+  
     price: "$50",
     images: [img7, img8, img1],
   },
   {
     title: "Premium Packages",
     description: "Our most popular package including our most popular service",
-    features: ["Photos", "Videos", "Cinematic Video"],
+    
     price: "$35",
     images: [img2, img3, img4],
   },
   {
     title: "Premium Packages",
     description: "Our most popular package including our most popular service",
-    features: ["Photos", "Cinematic Video", "Floor Plan"],
+  
     price: "$45",
     images: [img4, img5, img6],
   },
   {
     title: "Luxury Packages",
     description: "Our most popular package including our most popular service",
-    features: ["Photos", "Highlight Video", "Cinematic Video"],
+ 
     price: "$50",
     images: [img7, img8, img1],
   },
   {
     title: "Luxury Packages",
     description: "Our most popular package including our most popular service",
-    features: ["Photos", "Videos", "Floor Plan"],
+   
     price: "$25",
     images: [img1, img2, img3],
   },
   {
     title: "Premium Packages",
     description: "Our most popular package including our most popular service",
-    features: ["Photos", "Cinematic Video", "Floor Plan"],
+   
     price: "$45",
     images: [img4, img5, img6],
   },
@@ -135,9 +135,9 @@ export const ServicesPhoto = () => {
               <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
               <p>{service.description}</p>
               <ul className="mt-3 list-disc ml-7">
-                {service.features.map((feature, featureIndex) => (
+                {/* {service.features.map((feature, featureIndex) => (
                   <li key={featureIndex}>{feature}</li>
-                ))}
+                ))} */}
               </ul>
             </div>
             <div className="border-t flex justify-between p-3 items-center">

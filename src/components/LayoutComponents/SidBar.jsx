@@ -37,78 +37,11 @@ const items = [
     icon: <FaJediOrder />,
     link: "/dashboard/order-management",
   },
-  // {
-  //   key: "categoriesManagement",
-  //   label: "Categories Management",
-  //   icon: categorie,
-  //   link: "/dashboard/CategoriesManagement/Categories",
-  //   children: [
-  //     {
-  //       key: "categoriesManagement",
-  //       label: "Categories",
-  //       link: "/dashboard/CategoriesManagement/Categories",
-  //     },
-  //     {
-  //       key: "subcategory",
-  //       label: "Subcategory",
-  //       link: "/dashboard/CategoriesManagement/Subcategory",
-  //     },
-  //   ],
-  // },
-  {
-    key: "clientManagement",
-    label: "Client Management",
-    icon: <PiClockUserLight />,
-    link: "/dashboard/client-management",
-  },
-  {
-    key: "Services",
-    label: "Services",
-    icon: <RiImageEditLine />,
-    link: "/dashboard/services",
-  },
-  
-  {
-    key: "Packages",
-    label: "Packages",
-    icon: <GoPackage />,
-    link: "/dashboard/packages",
-  },
-  {
-    key: "ServiceCategories",
-    label: "Service Categories",
-    icon: <MdOutlineCategory />,
-    link: "/dashboard/service-categories",
-  },
-  {
-    key: "PricingGroup",
-    label: "Pricing Group",
-    icon: <RiMoneyDollarBoxLine /> ,
-    link: "/dashboard/pricing-group",
-  },
-  {
-    key: "report",
-    label: "Report",
-    icon: <PiInvoice />,
-    link: "/dashboard/report",
-  },
   {
     key: "InvoiceOrder",
     label: "Invoice Order",
     icon: <PiInvoice />,
     link: "/dashboard/invoice-order",
-  },
-  {
-    key: "Team-Member",
-    label: "Team-Member",
-    icon: <LiaUsersSolid />,
-    link: "/dashboard/team-member",
-  },
-  {
-    key: "TaskManagement",
-    label: "Task Management",
-    icon: <IoBagOutline />,
-    link: "/dashboard/task-managementPage",
   },
   {
     key: "Settings",
@@ -169,7 +102,7 @@ const SidBar = () => {
         <img src={logo} alt="Logo" className="w-[160px]" />
       </div>
       <div className="mx-5 mb-6">
-      <Link to={'/dashboard/create-new-order'}><button className="bg-[#2A216D] text-white py-2 w-full rounded">+ Create Order</button></Link>
+      <Link to={'/dashboard/create-services'}><button className="bg-[#2A216D] text-white py-2 w-full rounded">+ Create Order</button></Link>
       </div>
 
       {/* Sidebar Menu */}

@@ -9,17 +9,15 @@ import { Link } from "react-router-dom";
 import { EditShedualModal } from "./EditShedualModal";
 
 export const OrderDetailsPage = () => {
-  const [modal2Open, setModal2Open] = useState(false);
+  // const [modal2Open, setModal2Open] = useState(false);
   const menu = (
     <Menu>
-      <Link to={"/dashboard/order-management/order-details/edit-order"}>
-        <Menu.Item key="1">Edit Order</Menu.Item>
-      </Link>
-      <Link to={'/dashboard/order-management/order-details/edit-services'}><Menu.Item key="2">Edit Services</Menu.Item></Link>
-      <Menu.Item onClick={() => setModal2Open(true)} key="3">Edit Schedule</Menu.Item>
-      <Menu.Item key="4">Set Order On Hold</Menu.Item>
-      <Menu.Item key="5">Remove Order</Menu.Item>
-      <Menu.Item key="6">Cancel Order</Menu.Item>
+  
+        <Menu.Item key="1"><Link to={"/dashboard/order-management/order-details/edit-order"}>Edit Order</Link></Menu.Item>
+  
+      <Menu.Item key="2"><Link to={'/dashboard/order-management/order-details/edit-services'} >Edit Services</Link></Menu.Item>
+      <Menu.Item  key="3">Cancel Order</Menu.Item>
+      
     </Menu>
   );
   return (
@@ -36,7 +34,7 @@ export const OrderDetailsPage = () => {
           <button className="text-[#EF4849]">
             <FaArrowLeft />
           </button>
-          <span className="text-lg font-semibold">Manage Ticket</span>
+          <span className="text-lg font-semibold">Order Details</span>
         </h1>
         <Dropdown overlay={menu} trigger={["click"]}>
           <Button
@@ -51,23 +49,20 @@ export const OrderDetailsPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Section */}
           <div className="lg:col-span-2">
-            <div className="flex items-center justify-between mb-6 border p-6 rounded-md">
-              <div>
-                <h2 className="text-xl font-semibold">Client Name</h2>
-                <p className="text-gray-500">Louis Vuitton</p>
-              </div>
-              <div>
+            <div className="  mb-6 border p-4 rounded-md">
+              
+              <div className="flex justify-between">
                 <h2 className="text-xl font-semibold text-right">
                   Total Price
                 </h2>
-                <p className="text-purple-600 font-bold text-lg">$450</p>
+                <p className=" font-bold text-lg">$450</p>
               </div>
             </div>
 
-            <div className="border flex justify-between p-3 rounded-md items-center">
+            <div className="border flex justify-between p-4 rounded-md items-center">
               <p className="font-semibold">Appointment</p>
-              <button className="border border-[#F38E0A] text-[#F38E0A] py-2 px-4 rounded-md ">
-                Schedule An Appointment
+              <button className="  rounded-md ">
+                12/04/25 at 4:00 pm
               </button>
             </div>
 
@@ -169,8 +164,8 @@ export const OrderDetailsPage = () => {
         <PurchasedPackageSection></PurchasedPackageSection>
         <MassageBox></MassageBox>
       </div>
-      <EditShedualModal setModal2Open={setModal2Open}
-        modal2Open={modal2Open}></EditShedualModal>
+      {/* <EditShedualModal setModal2Open={setModal2Open}
+        modal2Open={modal2Open}></EditShedualModal> */}
     </div>
   );
 };

@@ -18,7 +18,7 @@ export const FinishedFileComnt = () => {
     rows={4}
   />
   <button
-    className="absolute flex gap-3 bottom-6 right-[5px] bg-purple-700 text-white px-4 py-2 rounded-md hover:bg-purple-600"
+    className="absolute flex gap-3 bottom-6 right-[5px] bg-[#2A216D] text-white px-4 py-2 rounded-md hover:bg-purple-600"
   >
     Send<IoSendOutline className="text-xl mt-[3px]"/>
   </button>
@@ -42,7 +42,7 @@ export const FinishedFileComnt = () => {
                   Thank you for your order. Help clients visualize your listing
                   and its surroundings by capturing shots from the sky.
                 </p>
-                <button className="text-purple-700 flex gap-3 mt-2 hover:underline">
+                <button className="text-[#2A216D] flex gap-3 mt-2 hover:underline">
                 <VscReply className="text-xl"/>Reply
                 </button>
           </div>

@@ -69,6 +69,14 @@ export const AddServicePage = () => {
           <ServicesVideos></ServicesVideos>
         </div>
       )}
+      <div className="flex justify-center gap-4">
+          <button className="px-6 py-2 w-[200px] rounded border border-gray-300 text-gray-700 hover:bg-gray-100">
+            Cancel
+          </button>
+          <button className="px-6 py-2 w-[200px] rounded bg-[#2A216D] text-white hover:bg-purple-800">
+            Update
+          </button>
+        </div>
     </div>
   );
 };
