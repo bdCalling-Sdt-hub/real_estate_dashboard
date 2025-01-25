@@ -5,7 +5,7 @@ import add from "../../assets/header/add.png";
 const Dashboard = () => {
   return (
     <div className="p-2 min-h-screen">
-      <div className="grid grid-cols-6 gap-4">
+      <div className="lg:grid grid-cols-6 gap-4">
         <div className="col-span-4">
           <div className="bg-white p-6 rounded flex items-center gap-4">
             <img className="w-16 rounded-full" src={profile} alt="" />
