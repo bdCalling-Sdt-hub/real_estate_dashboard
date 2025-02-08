@@ -1,7 +1,8 @@
 import React from "react";
 import { Input, Button } from "antd";
 import { SendOutlined } from "@ant-design/icons";
-import details from '../../assets/header/details1.png'
+import details from "../../assets/header/details1.png";
+import img from "../../assets/header/77.png";
 export const MassageBox = () => {
   return (
     <div className="">
@@ -20,7 +21,9 @@ export const MassageBox = () => {
             <div className="bg-gray-200 text-gray-700 p-3 rounded-md max-w-md">
               Hi, How are you?
             </div>
-            <span className="text-gray-400 text-sm mt-1 inline-block">11:15 AM</span>
+            <span className="text-gray-400 text-sm mt-1 inline-block">
+              11:15 AM
+            </span>
           </div>
         </div>
 
@@ -28,10 +31,16 @@ export const MassageBox = () => {
         <div className="flex items-end justify-end mb-4">
           <div>
             <div className="bg-[#2A216D] text-white p-3 rounded-md max-w-md text-right">
-              Hey! I saw your post about going on a road trip next week. Where are
-              you headed?
+              Hey! I saw your post about going on a road trip next week. Where
+              are you headed?
             </div>
-            <span className="text-gray-400 text-sm mt-1 inline-block">11:05 AM</span>
+            <span className="text-gray-400 text-sm mt-1 inline-block">
+              11:05 AM
+            </span>
+            <div className="  bg-gray-200 flex ">
+              <img className="w-[100px]" src={img} alt="" />
+              <p className="p-2">Revistion</p>
+            </div>
           </div>
         </div>
 
@@ -52,10 +61,10 @@ export const MassageBox = () => {
       <div>
         <h1 className="mt-8 ">Upload File</h1>
         <div className="grid grid-cols-4 gap-4 mt-5">
-            <img className="w-full rounded-md" src={details} alt="" />
-            <img className="w-full rounded-md" src={details} alt="" />
-            <img className="w-full rounded-md" src={details} alt="" />
-            <img className="w-full rounded-md" src={details} alt="" />
+          <img className="w-full rounded-md" src={details} alt="" />
+          <img className="w-full rounded-md" src={details} alt="" />
+          <img className="w-full rounded-md" src={details} alt="" />
+          <img className="w-full rounded-md" src={details} alt="" />
         </div>
       </div>
     </div>

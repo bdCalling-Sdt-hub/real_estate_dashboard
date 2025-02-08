@@ -159,7 +159,7 @@ export const OrderDetailsPage = () => {
             </div>
           </div>
         </div>
-        <DetailsNote></DetailsNote>
+        {/* <DetailsNote></DetailsNote> */}
 
         <PurchasedPackageSection></PurchasedPackageSection>
         <MassageBox></MassageBox>

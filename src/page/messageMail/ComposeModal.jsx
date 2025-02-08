@@ -30,13 +30,7 @@ export const ComposeModal = ({ modal2Open1, setModal2Open1 }) => {
         id="emailForm"
         onFinish={handleFinish}
       >
-        <Form.Item
-          name="to"
-          label="To"
-          rules={[{ required: true, message: "Recipient is required" }]}
-        >
-          <Input placeholder="Enter recipient email" />
-        </Form.Item>
+        
 
         <Form.Item
           name="subject"
