@@ -1,10 +1,32 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import image from "../assets/header/login.png";
-import { Checkbox, Form, Input } from "antd";
-
+import { Checkbox, Form, Input, message } from "antd";
+import { useDispatch } from "react-redux";
+import { useLoginAdminMutation } from "../page/redux/api/userApi";
+import { setToken } from "../page/redux/features/auth/authSlice";
 const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const[loginAdmin] = useLoginAdminMutation()
   const onFinish = async (values) => {
-    console.log(values);
+      try {
+        console.log("Form Values:", values);
+        const payload = await loginAdmin(values).unwrap();
+        console.log("API Response:", payload);
+        if (payload?.success) {
+          dispatch(setToken(payload?.data?.accessToken))
+          message.success("Login successful!");
+          navigate("/");
+        } else {
+          message.error(payload?.message || "Login failed!");
+        }
+      } catch (error) {
+        console.error("Login error:", error);
+        message.error(error?.data?.message || "Something went wrong. Try again!");
+      } finally {
+       
+        console.log("Login attempt finished.");
+      }
   };
   return (
     <div className="min-h-screen grid grid-cols-2 bg-white">
@@ -70,7 +92,7 @@ const Login = () => {
                 <Checkbox className="text-gray-700">Remember me</Checkbox>
               </Form.Item>
               <Link
-                to={""}
+                to={"/forgetpassword"}
                 className="text-sm text-[#2F799E] hover:underline focus:outline-none"
               >
                 Forget password?

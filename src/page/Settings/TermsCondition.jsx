@@ -1,11 +1,13 @@
+import React from 'react';
 import  { useState, useRef, } from 'react';
 import JoditEditor from 'jodit-react';
 import { FaArrowLeft } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { Input, QRCode, Space } from 'antd';
 
 
 const TermsCondition = () => {
-
+  const [text, setText] = React.useState('foisalrk2@gmail.com');
   const editor = useRef(null);
   const [content, setContent] = useState('');
   // const [isLoading, seLoading] = useState(false)
@@ -59,6 +61,15 @@ const TermsCondition = () => {
           Save & change
         </button>
       </div>
+      <Space direction="vertical" align="center">
+      <QRCode style={{width:'500px' , height:'500px'}} value={text || '-'} />
+      {/* <Input
+        placeholder="-"
+        maxLength={60}
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+      /> */}
+    </Space>
     </div>
   );
 };

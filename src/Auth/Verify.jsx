@@ -1,14 +1,49 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import image from "../assets/header/verify.png";
-import { Button, Checkbox, Form, Input } from "antd";
+import { Button, Checkbox, Form, Input, message } from "antd";
 import { useState } from "react";
 import OTPInput from "react-otp-input";
+import { useResendVerifyOtpMutation, useVerifyOtpMutation } from "../page/redux/api/userApi";
 
 const Verify = () => {
-  // const onFinish = async (values) => {
-  //   console.log(values);
-  // };
   const [otp, setOtp] = useState("");
+  const [verifyOtp] = useVerifyOtpMutation({});
+  const [resendVerifyOtp] = useResendVerifyOtpMutation();
+  
+  const navigate = useNavigate();
+  
+  const handleVerify = async () => {
+    const data = {
+      code: otp,
+      email: localStorage.getItem("email"),
+    };
+
+    console.log(data); // Debugging: log OTP and email data
+
+    try {
+      const response = await verifyOtp({data}).unwrap();
+      console.log(response); // Debugging: log response
+      message.success(response?.message);
+      navigate("/reset");
+    } catch (error) {
+      console.error(error); // Debugging: log error response
+      message.error(error?.data?.message );
+    }
+  };
+
+  const handleResend =async () => {
+    const data = {
+      email: localStorage.getItem("email"),
+    };
+    try {
+      const response =await resendVerifyOtp(data).unwrap();
+      console.log(response,message); // Debugging: log resend OTP response
+      message.success(response.message);
+    } catch (error) {
+      console.error(error); // Debugging: log error response
+      message.error(error?.data?.message || "Failed to resend OTP!");
+    }
+  };
   return (
     <div className="min-h-screen grid grid-cols-2 bg-white">
       <div className="flex justify-center items-center">
@@ -28,7 +63,7 @@ const Verify = () => {
             <OTPInput
               value={otp}
               onChange={setOtp}
-              numInputs={5}
+              numInputs={6}
               renderSeparator={<span className="mx-1"></span>}
               renderInput={(props) => (
                 <input
@@ -40,7 +75,7 @@ const Verify = () => {
             />
           </div>
           <button
-            // onClick={handleVerify}
+            onClick={handleVerify}
             className="w-full py-2 bg-[#2A216D] text-white rounded-md mb-4"
           >
             Verify Code
@@ -49,6 +84,7 @@ const Verify = () => {
           <span className="flex justify-center">
             You have not received the email?{" "}
             <span
+             onClick={handleResend}
               className="text-[#2A216D] cursor-pointer"
               // onClick={handleResend}
             >

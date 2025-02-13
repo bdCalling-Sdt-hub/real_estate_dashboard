@@ -33,6 +33,8 @@ import { AddServicePage } from "../page/orderManagement/AddServicePage";
 
 import { TaskManagementPage } from "../page/TaskManagement/TaskManagementPage";
 import Settings from "../page/Settings/Settings";
+import ProtectedRoute from "../protectedRoute/ProtectedRoute";
+import TermsCondition from "../page/Settings/TermsCondition";
 
 
 export const router = createBrowserRouter([
@@ -40,7 +42,7 @@ export const router = createBrowserRouter([
     path: "/",
     element: (
      
-        <DashboardLayout></DashboardLayout>
+        <ProtectedRoute><DashboardLayout></DashboardLayout></ProtectedRoute>
       
     ),
     children: [
@@ -129,6 +131,11 @@ export const router = createBrowserRouter([
         path: "/dashboard/Settings/notification",
         element: <Notification></Notification>
       },
+      {
+        path: "/dashboard/Settings/terms",
+        element: <TermsCondition></TermsCondition>
+      },
+
       
     ],
   },
