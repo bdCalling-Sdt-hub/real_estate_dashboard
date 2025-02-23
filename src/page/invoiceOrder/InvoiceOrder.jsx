@@ -2,9 +2,18 @@ import React, { useState } from "react";
 import { Table, Button, Tag, Input } from "antd";
 import { useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
-
+import { useGetInvoiceQuery } from "../redux/api/invoiceApi";
 export const InvoiceOrder = () => {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+
+  const { data: invoiceData, isLoading } = useGetInvoiceQuery({
+    page,
+    limit,
+    clientId: "67b2ee6abea0130fdd570d33",
+  });
+
+  console.log(invoiceData);
 
   const data = [
     {
@@ -43,18 +52,32 @@ export const InvoiceOrder = () => {
   const columns = [
     {
       title: "Order ID",
-      dataIndex: "orderId",
-      key: "orderId",
+      dataIndex: "orderIds",
+      key: "orderIds",
+      render: (orderIds) => orderIds.map((order) => order._id).join(", "),
     },
     {
       title: "Order Date",
-      dataIndex: "orderDate",
-      key: "orderDate",
+      dataIndex: "date",
+      key: "date",
+      render: (date) =>
+        new Date(date).toLocaleDateString("en-US", {
+          month: "long",
+          day: "numeric",
+          year: "numeric",
+        }),
     },
     {
       title: "Address",
-      dataIndex: "address",
-      key: "address",
+      dataIndex: "orderIds",
+      key: "orderIds",
+      render: (orderIds) =>
+        orderIds
+          .map(
+            (order) =>
+              `${order.address.zipCode}, ${order.address.streetName}, ${order.address.streetAddress}, ${order.address.city}`
+          )
+          .join(", "),
     },
     {
       title: "Services",
@@ -64,9 +87,14 @@ export const InvoiceOrder = () => {
     },
     {
       title: "Total",
-      dataIndex: "total",
-      key: "total",
+      dataIndex: "totalAmount",
+      key: "totalAmount",
       align: "right",
+      render: (totalAmount) =>
+        Number(totalAmount).toLocaleString("en-US", {
+          style: "currency",
+          currency: "USD",
+        }),
     },
     {
       title: "Status",
@@ -117,7 +145,7 @@ export const InvoiceOrder = () => {
             fontSize: "14px",
           }}
         >
-          {payment}
+          Pay Now
         </Button>
       ),
     },
@@ -142,15 +170,15 @@ export const InvoiceOrder = () => {
         </h1>
         <Input placeholder="Search here..." style={{ width: 300 }} />
       </div>
-      
+
       <Table
-        dataSource={data}
+        dataSource={invoiceData?.data?.data}
         columns={columns}
         pagination={{
-          current: currentPage,
-          pageSize: 10,
-          total: 100, // Adjust the total number of records
-          onChange: (page) => setCurrentPage(page),
+          current: page,
+          pageSize: limit,
+          total: invoiceData?.data?.meta?.total,
+          onChange: (page) => setPage(page),
           showTotal: (total, range) =>
             `${range[0]}-${range[1]} of ${total} items`,
         }}
