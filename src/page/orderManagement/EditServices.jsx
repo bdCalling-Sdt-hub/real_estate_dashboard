@@ -1,30 +1,19 @@
 import React from "react";
-import img from "../../assets/header/11.png";
 import img1 from "../../assets/header/22.png";
 import img2 from "../../assets/header/33.png";
 import img3 from "../../assets/header/44.png";
-import img4 from "../../assets/header/55.png";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { EditServicesCard } from "./EditServicesCard";
 import { EditServicesPhotoSection } from "./EditServicesPhotoSection";
 import { EditServicesVideo } from "./EditServicesVideo";
-import { Button, Dropdown, Menu } from "antd";
+import { Button, Dropdown } from "antd";
 import { FaArrowLeft } from "react-icons/fa";
 import { HiOutlineDotsVertical } from "react-icons/hi";
+import { menu } from "./constant";
 
 export const EditServices = () => {
-  const navigate = useNavigate()
-  const menu = (
-      <Menu>
-    
-          <Menu.Item key="1"><Link to={"/dashboard/order-management/order-details/edit-order"}>Edit Order</Link></Menu.Item>
-    
-        <Menu.Item key="2"><Link to={'/dashboard/order-management/order-details/edit-services'} >Edit Services</Link></Menu.Item>
-        <Menu.Item  key="3">Cancel Order</Menu.Item>
-        
-      </Menu>
-    );
-  // Data for packages, photos, and videos
+  const navigate = useNavigate();
+  const { id } = useParams();
   const packageData = [
     {
       title: "Luxury Packages",
@@ -39,14 +28,9 @@ export const EditServices = () => {
       description: "Includes essential services for your property:",
       features: ["Photos", "Floor Plan"],
       price: 15,
-     images: [img1, img2, img3],
+      images: [img1, img2, img3],
     },
   ];
-
-  
-
-  
-  
 
   return (
     <div className="bg-white p-4">
@@ -64,7 +48,7 @@ export const EditServices = () => {
           </button>
           <span className="text-lg font-semibold">Order Details</span>
         </h1>
-        <Dropdown overlay={menu} trigger={["click"]}>
+        <Dropdown overlay={() => menu(id)} trigger={["click"]}>
           <Button
             className="border border-black rounded-full text-black flex items-center"
             onClick={(e) => e.preventDefault()}
@@ -92,7 +76,6 @@ export const EditServices = () => {
           <h3 className="text-lg font-semibold mb-4">Package</h3>
           <div className="grid grid-cols-3 gap-4">
             {packageData.map((pkg, index) => (
-             
               <EditServicesCard pkg={pkg} key={index}></EditServicesCard>
             ))}
           </div>

@@ -26,6 +26,15 @@ const ordersApi = baseApi.injectEndpoints({
     getOrderById: builder.query({
       query: (id) => `/orders/get/${id}`,
     }),
+    updateOrder: builder.mutation({
+      query: ({ id, data }) => {
+        return {
+          url: `/orders/update-order/${id}`,
+          method: "PATCH",
+          body: data,
+        };
+      },
+    }),
   }),
 });
 
@@ -34,4 +43,5 @@ export const {
   useCreateOrderMutation,
   useGetAllOrdersQuery,
   useGetOrderByIdQuery,
+  useUpdateOrderMutation,
 } = ordersApi;

@@ -3,13 +3,15 @@ import { FaArrowLeft } from "react-icons/fa";
 import { PurchasedPackageSection } from "./PurchasedPackageSection";
 import { MassageBox } from "./MassageBox";
 import { HiOutlineDotsVertical } from "react-icons/hi";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useGetOrderByIdQuery } from "../redux/api/ordersApi";
 import dayjs from "dayjs";
 import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
+import { menu } from "./constant";
 
 export const OrderDetailsPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { data: order, isLoading } = useGetOrderByIdQuery(id);
   if (isLoading) {
     return (
@@ -18,22 +20,7 @@ export const OrderDetailsPage = () => {
       </div>
     );
   }
-  const menu = (
-    <Menu>
-      <Menu.Item key="1">
-        <Link to={"/dashboard/order-management/order-details/edit-order"}>
-          Edit Order
-        </Link>
-      </Menu.Item>
 
-      <Menu.Item key="2">
-        <Link to={"/dashboard/order-management/order-details/edit-services"}>
-          Edit Services
-        </Link>
-      </Menu.Item>
-      <Menu.Item key="3">Cancel Order</Menu.Item>
-    </Menu>
-  );
   return (
     <div className="p-6 bg-white min-h-screen">
       <div
@@ -50,7 +37,7 @@ export const OrderDetailsPage = () => {
           </button>
           <span className="text-lg font-semibold">Order Details</span>
         </h1>
-        <Dropdown overlay={menu} trigger={["click"]}>
+        <Dropdown overlay={() => menu(id)} trigger={["click"]}>
           <Button
             className="border border-black rounded-full text-black flex items-center"
             onClick={(e) => e.preventDefault()}

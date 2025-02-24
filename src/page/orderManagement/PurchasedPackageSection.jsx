@@ -11,6 +11,10 @@ import { IoCheckmarkDoneCircleSharp } from "react-icons/io5";
 
 export const PurchasedPackageSection = ({ tasks }) => {
   const handleCopyLink = (files) => {
+    if (files.length === 0) {
+      message.error("No files to copy");
+      return;
+    }
     files.forEach((file) => {
       try {
         navigator.clipboard.writeText(file.url);
@@ -22,6 +26,10 @@ export const PurchasedPackageSection = ({ tasks }) => {
     });
   };
   const handleDownload = (files) => {
+    if (files.length === 0) {
+      message.error("No files to download");
+      return;
+    }
     files.forEach((file) => {
       try {
         window.open(file.url, "_blank");

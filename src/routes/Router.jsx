@@ -69,12 +69,12 @@ export const router = createBrowserRouter([
         element: <OrderDetailsPage />,
       },
       {
-        path: "/dashboard/order-management/order-details/edit-order",
-        element: <EditOrder></EditOrder>,
+        path: "/dashboard/order-management/order-details/edit-order/:id",
+        element: <EditOrder />,
       },
       {
-        path: "/dashboard/order-management/order-details/edit-services",
-        element: <EditServices></EditServices>,
+        path: "/dashboard/order-management/order-details/edit-services/:id",
+        element: <EditServices />,
       },
       {
         path: "/dashboard/order-management/order-details/add-services",
@@ -112,8 +112,8 @@ export const router = createBrowserRouter([
         element: <AllServiceTask></AllServiceTask>,
       },
       {
-        path: "/dashboard/task-management/all-Services/project-file",
-        element: <ProjectFile></ProjectFile>,
+        path: "/dashboard/task-management/all-Services/project-file/:id",
+        element: <ProjectFile />,
       },
       {
         path: "/dashboard/settings",

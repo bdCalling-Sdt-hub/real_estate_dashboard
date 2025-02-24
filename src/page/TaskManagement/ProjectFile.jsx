@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { SourceFile } from "./SourceFile";
 import { FinishedFile } from "./FinishedFile";
-import { MdOutlineFileUpload } from "react-icons/md";
 import { FinishedFileComnt } from "./FinishedFileComnt";
 import { HighlightVideo } from "./HighlightVideo";
 import { ChinematicVideo } from "./ChinematicVideo";
