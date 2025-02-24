@@ -21,13 +21,18 @@ export const UpcomingAppoinment = () => {
       key: "address",
     },
     {
-      title: "Agent",
-      dataIndex: "client",
-      key: "client",
-      render: (client) => (
+      title: "Team Member",
+      dataIndex: "member",
+      key: "member",
+      render: (member) => (
         <div className="flex items-center">
-          <Avatar src="https://i.pravatar.cc/150?img=1" alt="" />
-          <span style={{ marginLeft: 8 }}>Test Name</span>
+          <Avatar
+            src={`${import.meta.env.VITE_BASE_URL}${
+              member?.[0]?.profile_image
+            }`}
+            alt=""
+          />
+          <span style={{ marginLeft: 8 }}>{member?.[0]?.name}</span>
         </div>
       ),
     },
