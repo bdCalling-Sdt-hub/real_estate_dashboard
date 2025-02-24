@@ -9,14 +9,15 @@ const CreateServices = () => {
   const [formData, setFormData] = useState({
     serviceIds: [],
     services: [],
+    contactAgent: "false",
   });
 
   const tabs = ["Services", "Address", "Contact Info", "Confirm"];
   const tabContent = [
     <ServicesTab formData={formData} setFormData={setFormData} />,
-    <AdressTab />,
-    <ContactInforTab />,
-    <ConfirmSection />,
+    <AdressTab formData={formData} setFormData={setFormData} />,
+    <ContactInforTab formData={formData} setFormData={setFormData} />,
+    <ConfirmSection formData={formData} setFormData={setFormData} />,
   ];
 
   const handleNext = () => {
