@@ -204,7 +204,7 @@ export const OrderDetailsPage = () => {
           </div>
         </div>
         <PurchasedPackageSection tasks={order?.data?.taskIds} />
-        <MassageBox />
+        <MassageBox files={order?.data?.uploadFiles} />
       </div>
     </div>
   );
