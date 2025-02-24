@@ -6,13 +6,17 @@ import { ConfirmSection } from "./ConfirmDection";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 const CreateServices = () => {
   const [activeTab, setActiveTab] = useState(0);
+  const [formData, setFormData] = useState({
+    serviceIds: [],
+    services: [],
+  });
 
   const tabs = ["Services", "Address", "Contact Info", "Confirm"];
   const tabContent = [
-    <ServicesTab></ServicesTab>,
-    <AdressTab></AdressTab>,
-    <ContactInforTab></ContactInforTab>,
-    <ConfirmSection></ConfirmSection>,
+    <ServicesTab formData={formData} setFormData={setFormData} />,
+    <AdressTab />,
+    <ContactInforTab />,
+    <ConfirmSection />,
   ];
 
   const handleNext = () => {
@@ -30,32 +34,32 @@ const CreateServices = () => {
   return (
     <div className="bg-white p-4 ">
       <div className="flex justify-center">
-      <div
-        style={{ display: "flex", justifyContent: "", marginBottom: "20px" }}
-      >
-        {tabs.map((tab, index) => (
-          <div className="flex" key={index}>
-            <div
-              style={{
-                padding: "6px 20px",
-                border:
-                  activeTab === index
-                    ? "1px solid #9B3C7B"
-                    : "1px dashed #9B3C7B",
-                backgroundColor: activeTab === index ? "#F5ECF2" : "",
-                color: "#9B3C7B",
-                borderRadius: "50px",
-                cursor: "default",
-              }}
-            >
-              {index + 1}. {tab}
+        <div
+          style={{ display: "flex", justifyContent: "", marginBottom: "20px" }}
+        >
+          {tabs.map((tab, index) => (
+            <div className="flex" key={index}>
+              <div
+                style={{
+                  padding: "6px 20px",
+                  border:
+                    activeTab === index
+                      ? "1px solid #9B3C7B"
+                      : "1px dashed #9B3C7B",
+                  backgroundColor: activeTab === index ? "#F5ECF2" : "",
+                  color: "#9B3C7B",
+                  borderRadius: "50px",
+                  cursor: "default",
+                }}
+              >
+                {index + 1}. {tab}
+              </div>
+              {index < tabs.length - 1 && (
+                <span className="text-[#9B3C7B] mt-1">...............</span>
+              )}
             </div>
-            {index < tabs.length - 1 && (
-              <span className="text-[#9B3C7B] mt-1">...............</span>
-            )}
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
       </div>
 
       <div style={{ minHeight: "100px", marginBottom: "20px" }}>
