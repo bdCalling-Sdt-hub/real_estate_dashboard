@@ -2,7 +2,6 @@ import { createBrowserRouter } from "react-router-dom";
 import DashboardLayout from "../layout/dashboardLayout/DashboardLayout";
 import Dashboard from "../components/Dashboard/Dashboard";
 
-
 import ForgetPass from "../Auth/ForgetPass";
 import Verify from "../Auth/Verify";
 import ResetPass from "../Auth/ResetPass";
@@ -29,21 +28,18 @@ import { EditOrder } from "../page/orderManagement/EditOrder";
 import { EditServices } from "../page/orderManagement/EditServices";
 import { AddServicePage } from "../page/orderManagement/AddServicePage";
 
-
-
 import { TaskManagementPage } from "../page/TaskManagement/TaskManagementPage";
 import Settings from "../page/Settings/Settings";
 import ProtectedRoute from "../protectedRoute/ProtectedRoute";
 import TermsCondition from "../page/Settings/TermsCondition";
 
-
 export const router = createBrowserRouter([
   {
     path: "/",
     element: (
-     
-        <ProtectedRoute><DashboardLayout></DashboardLayout></ProtectedRoute>
-      
+      <ProtectedRoute>
+        <DashboardLayout></DashboardLayout>
+      </ProtectedRoute>
     ),
     children: [
       {
@@ -52,91 +48,85 @@ export const router = createBrowserRouter([
       },
       {
         path: "/dashboard/message-mail",
-        element: <MessageMail></MessageMail>
+        element: <MessageMail></MessageMail>,
       },
       // {
       //   path: "/dashboard/message-mail/user-details",
       //   element: <UserDetailsPage></UserDetailsPage>
       // },
-     
+
       {
         path: "/dashboard/create-services",
-        element: <CreateServices></CreateServices>
+        element: <CreateServices></CreateServices>,
       },
       {
         path: "/dashboard/order-management",
-        element: <OrderManagement></OrderManagement>
+        element: <OrderManagement />,
       },
-      
+
       {
-        path: "/dashboard/order-management/order-details",
-        element: <OrderDetailsPage></OrderDetailsPage>
+        path: "/dashboard/order-management/order-details/:id",
+        element: <OrderDetailsPage />,
       },
       {
         path: "/dashboard/order-management/order-details/edit-order",
-        element: <EditOrder></EditOrder>
+        element: <EditOrder></EditOrder>,
       },
       {
         path: "/dashboard/order-management/order-details/edit-services",
-        element: <EditServices></EditServices>
+        element: <EditServices></EditServices>,
       },
       {
         path: "/dashboard/order-management/order-details/add-services",
-        element: <AddServicePage></AddServicePage>
+        element: <AddServicePage></AddServicePage>,
       },
-     
-      
+
       {
         path: "/dashboard/services",
-        element: <Services></Services>
+        element: <Services></Services>,
       },
-    
+
       {
         path: "/dashboard/service-categories",
-        element: <ServicesCategories></ServicesCategories>
+        element: <ServicesCategories></ServicesCategories>,
       },
-      
-      
-     
-      
+
       {
         path: "/dashboard/invoice-order",
-        element: <InvoiceOrder></InvoiceOrder>
+        element: <InvoiceOrder></InvoiceOrder>,
       },
       {
         path: "/dashboard/team-member",
-        element: <TeamMember></TeamMember>
+        element: <TeamMember></TeamMember>,
       },
       {
         path: "/dashboard/task-managementPage",
-        element: <TaskManagementPage></TaskManagementPage>
+        element: <TaskManagementPage></TaskManagementPage>,
       },
       {
         path: "/dashboard/task-management",
-        element: <TaskManagement></TaskManagement>
+        element: <TaskManagement></TaskManagement>,
       },
       {
         path: "/dashboard/task-management/all-Services",
-        element: <AllServiceTask></AllServiceTask>
+        element: <AllServiceTask></AllServiceTask>,
       },
       {
         path: "/dashboard/task-management/all-Services/project-file",
-        element: <ProjectFile></ProjectFile>
+        element: <ProjectFile></ProjectFile>,
       },
       {
         path: "/dashboard/settings",
-        element: <Settings></Settings>
+        element: <Settings></Settings>,
       },
       {
         path: "/dashboard/Settings/notification",
-        element: <Notification></Notification>
+        element: <Notification></Notification>,
       },
       {
         path: "/dashboard/Settings/terms",
-        element: <TermsCondition></TermsCondition>
+        element: <TermsCondition></TermsCondition>,
       },
-
-      
     ],
   },
 
