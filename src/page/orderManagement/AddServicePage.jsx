@@ -3,12 +3,13 @@ import { ServicesPackeg } from "../createOrder/ServicesPackeg";
 import { ServicesPhoto } from "../createOrder/ServicesPhoto";
 import { ServicesVideos } from "../createOrder/ServicesVideos";
 import { Input } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 
 export const AddServicePage = () => {
   const navigate = useNavigate();
   const [selectedTab, setSelectedTab] = useState("all");
+  const { id } = useParams();
   return (
     <div className="bg-white p-4">
       <h1 onClick={() => navigate(-1)} className="flex gap-4 cursor-pointer">

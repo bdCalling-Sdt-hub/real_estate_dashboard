@@ -77,8 +77,8 @@ export const router = createBrowserRouter([
         element: <EditServices />,
       },
       {
-        path: "/dashboard/order-management/order-details/add-services",
-        element: <AddServicePage></AddServicePage>,
+        path: "/dashboard/order-management/order-details/add-services/:id",
+        element: <AddServicePage />,
       },
 
       {
