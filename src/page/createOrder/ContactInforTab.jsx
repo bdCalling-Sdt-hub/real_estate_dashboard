@@ -1,6 +1,5 @@
 import { Form, Input, Radio, Checkbox, Typography } from "antd";
 import { useGetClientAgentsQuery } from "../redux/api/ordersApi";
-import { imageUrl } from "../redux/api/baseApi";
 import { useSelector } from "react-redux";
 
 export const ContactInforTab = ({ formData, setFormData }) => {
@@ -157,7 +156,7 @@ const AgentCheckbox = ({ agent, handleCheckboxChange, selectedAgent }) => {
           className="w-[30px] rounded-full"
           src={
             agent.profile_image
-              ? `${imageUrl}${agent.profile_image}`
+              ? `${import.meta.env.VITE_BASE_URL}${agent.profile_image}`
               : `https://ui-avatars.com/api/?name=${agent.name}`
           }
           alt={agent.name}

@@ -4,7 +4,14 @@ const ordersApi = baseApi.injectEndpoints({
     getClientAgents: builder.query({
       query: (clientId) => `/client/get-client-agent?clientId=${clientId}`,
     }),
+    createOrder: builder.mutation({
+      query: (data) => ({
+        url: "/orders/create-order",
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useGetClientAgentsQuery } = ordersApi;
+export const { useGetClientAgentsQuery, useCreateOrderMutation } = ordersApi;
