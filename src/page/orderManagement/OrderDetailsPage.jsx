@@ -1,23 +1,37 @@
-import { Button, Dropdown, Input, Menu } from "antd";
-import React, { useState } from "react";
+import { Button, Dropdown, Menu, Spin } from "antd";
 import { FaArrowLeft } from "react-icons/fa";
 import { PurchasedPackageSection } from "./PurchasedPackageSection";
 import { MassageBox } from "./MassageBox";
-import { DetailsNote } from "./DetailsNote";
 import { HiOutlineDotsVertical } from "react-icons/hi";
-import { Link } from "react-router-dom";
-import { EditShedualModal } from "./EditShedualModal";
+import { Link, useParams } from "react-router-dom";
+import { useGetOrderByIdQuery } from "../redux/api/ordersApi";
+import dayjs from "dayjs";
+import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
 
 export const OrderDetailsPage = () => {
-  // const [modal2Open, setModal2Open] = useState(false);
+  const { id } = useParams();
+  const { data: order, isLoading } = useGetOrderByIdQuery(id);
+  if (isLoading) {
+    return (
+      <div className="p-6 bg-white min-h-screen flex justify-center items-center">
+        <Spin />
+      </div>
+    );
+  }
   const menu = (
     <Menu>
-  
-        <Menu.Item key="1"><Link to={"/dashboard/order-management/order-details/edit-order"}>Edit Order</Link></Menu.Item>
-  
-      <Menu.Item key="2"><Link to={'/dashboard/order-management/order-details/edit-services'} >Edit Services</Link></Menu.Item>
-      <Menu.Item  key="3">Cancel Order</Menu.Item>
-      
+      <Menu.Item key="1">
+        <Link to={"/dashboard/order-management/order-details/edit-order"}>
+          Edit Order
+        </Link>
+      </Menu.Item>
+
+      <Menu.Item key="2">
+        <Link to={"/dashboard/order-management/order-details/edit-services"}>
+          Edit Services
+        </Link>
+      </Menu.Item>
+      <Menu.Item key="3">Cancel Order</Menu.Item>
     </Menu>
   );
   return (
@@ -50,71 +64,92 @@ export const OrderDetailsPage = () => {
           {/* Left Section */}
           <div className="lg:col-span-2">
             <div className="  mb-6 border p-4 rounded-md">
-              
               <div className="flex justify-between">
                 <h2 className="text-xl font-semibold text-right">
                   Total Price
                 </h2>
-                <p className=" font-bold text-lg">$450</p>
+                <p className=" font-bold text-lg">
+                  {Number(order?.data?.totalAmount).toLocaleString("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                  })}
+                </p>
               </div>
             </div>
 
             <div className="border flex justify-between p-4 rounded-md items-center">
               <p className="font-semibold">Appointment</p>
-              <button className="  rounded-md ">
-                12/04/25 at 4:00 pm
+              <button className="rounded-md">
+                {order?.data?.schedule?.start_time
+                  ? dayjs(order?.data?.schedule?.start_time).format(
+                      "DD/MM/YYYY [at] hh:mmA"
+                    )
+                  : "No appointment scheduled"}
               </button>
             </div>
 
             <div className="mt-6">
               <h3 className="text-lg font-semibold">Description</h3>
-              <p className="text-gray-600">
-                Please call the property owner to make an appointment, take some
-                pictures and videos of the property location.
-              </p>
+              <p className="text-gray-600">{order?.data?.descriptions}</p>
             </div>
 
             <div className="mt-6">
               <h3 className="text-lg font-semibold">Property Information</h3>
               <ul className="text-gray-600 mt-2 space-y-2">
                 <li>
-                  <strong>Zip Code:</strong> 3535
+                  <strong>Zip Code:</strong>{" "}
+                  {order?.data?.address?.zipCode || "N/A"}
                 </li>
                 <li>
-                  <strong>Street Number:</strong> 12/4
+                  <strong>Street Number:</strong>{" "}
+                  {order?.data?.address?.streetNumber || "N/A"}
                 </li>
                 <li>
-                  <strong>Street Address:</strong> 1901 Thornridge Cir. Shiloh,
-                  Hawaii 81063
+                  <strong>Street Address:</strong>{" "}
+                  {order?.data?.address?.streetAddress || "N/A"}
                 </li>
                 <li>
-                  <strong>City:</strong> Hawaii
+                  <strong>City:</strong> {order?.data?.address?.city || "N/A"}
                 </li>
                 <li>
-                  <strong>State:</strong> California
+                  <strong>State:</strong> {order?.data?.address?.state || "N/A"}
                 </li>
                 <li>
-                  <strong>Pickup keys at real estate office?</strong> Yes
+                  <strong>Pickup keys at real estate office?</strong>{" "}
+                  {order?.data?.address?.pickupKeyOffice ? "Yes" : "No"}
                 </li>
               </ul>
             </div>
 
             <div className="mt-6">
               <h3 className="text-lg font-semibold">Order Placed By:</h3>
-              <p className="text-gray-600">Robert Smith</p>
+              <p className="text-gray-600">
+                {order?.data?.orderPlaced?.userId?.name}
+              </p>
             </div>
           </div>
 
           {/* Right Section */}
           <div>
             <div className="h-56 w-full rounded-md overflow-hidden shadow-md">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.835434509851!2d-122.41941548468156!3d37.77492977975852!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80858064b0a12b3d%3A0x0!2zMzfCsDQ2JzI5LjgiTiAxMjLCsDI1JzE5LjciVw!5e0!3m2!1sen!2sus!4v1639820485865!5m2!1sen!2sus"
-                title="map"
-                className="w-full h-full"
-                allowFullScreen=""
-                loading="lazy"
-              ></iframe>
+              <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
+                <Map
+                  style={{ width: "100%", height: "100%" }}
+                  defaultCenter={{
+                    lng: order?.data?.locations.coordinates[0],
+                    lat: order?.data?.locations.coordinates[1],
+                  }}
+                  defaultZoom={13}
+                  gestureHandling={"greedy"}
+                >
+                  <Marker
+                    position={{
+                      lng: order?.data?.locations.coordinates[0],
+                      lat: order?.data?.locations.coordinates[1],
+                    }}
+                  />
+                </Map>
+              </APIProvider>
             </div>
 
             <div className="mt-6">
@@ -125,13 +160,16 @@ export const OrderDetailsPage = () => {
                 </p>
                 <ul className="text-gray-600 mt-2 space-y-1">
                   <li>
-                    <strong>Name:</strong> Robert Smith
+                    <strong>Name:</strong>{" "}
+                    {order?.data?.contactInfo?.name1 || "N/A"}
                   </li>
                   <li>
-                    <strong>Email:</strong> smith24@gmail.com
+                    <strong>Email:</strong>
+                    {order?.data?.contactInfo?.email1 || "N/A"}
                   </li>
                   <li>
-                    <strong>Phone Number:</strong> +456636646004
+                    <strong>Phone Number:</strong>
+                    {order?.data?.contactInfo?.phone1 || "N/A"}
                   </li>
                 </ul>
               </div>
@@ -141,31 +179,33 @@ export const OrderDetailsPage = () => {
                 </p>
                 <ul className="text-gray-600 mt-2 space-y-1">
                   <li>
-                    <strong>Name:</strong> Robert Smith
+                    <strong>Name:</strong>
+                    {order?.data?.contactInfo?.name2 || "N/A"}
                   </li>
                   <li>
-                    <strong>Email:</strong> smith24@gmail.com
+                    <strong>Email:</strong>
+                    {order?.data?.contactInfo?.email2 || "N/A"}
                   </li>
                   <li>
-                    <strong>Phone Number:</strong> +456636646004
+                    <strong>Phone Number:</strong>
+                    {order?.data?.contactInfo?.phone2 || "N/A"}
                   </li>
                 </ul>
               </div>
               <div className="mt-4">
                 <p>
-                  <strong>Real Estate Agent:</strong> Ronald Richards
+                  <strong>Real Estate Agent:</strong>{" "}
+                  {order?.data?.linkedAgents
+                    ?.map((agent) => agent.name)
+                    .join(", ") || "N/A"}
                 </p>
               </div>
             </div>
           </div>
         </div>
-        {/* <DetailsNote></DetailsNote> */}
-
-        <PurchasedPackageSection></PurchasedPackageSection>
-        <MassageBox></MassageBox>
+        <PurchasedPackageSection tasks={order?.data?.taskIds} />
+        <MassageBox />
       </div>
-      {/* <EditShedualModal setModal2Open={setModal2Open}
-        modal2Open={modal2Open}></EditShedualModal> */}
     </div>
   );
 };

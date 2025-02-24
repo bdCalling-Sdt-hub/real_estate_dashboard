@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import { Select, Card, Badge, Input, Spin } from "antd";
-
-import img from "../../assets/header/11.png";
-import img1 from "../../assets/header/22.png";
-import img2 from "../../assets/header/33.png";
-import img3 from "../../assets/header/44.png";
+import { Select, Card, Input, Spin } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import { useSelector } from "react-redux";
@@ -109,9 +104,11 @@ export const OrderManagement = () => {
                       <div>
                         <p className="text-black ">Upcoming Appointment</p>
                         <p className="font-medium text text-sm">
-                          {dayjs(item.schedule.startTime).format(
-                            "DD/MM/YYYY at hh:mmA"
-                          )}
+                          {item.schedule.start_time
+                            ? dayjs(item.schedule.start_time).format(
+                                "DD/MM/YYYY [at] hh:mmA"
+                              )
+                            : "No appointment scheduled"}
                         </p>
                       </div>
                     </div>
