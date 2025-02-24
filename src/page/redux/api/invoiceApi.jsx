@@ -14,7 +14,15 @@ const invoiceApi = baseApi.injectEndpoints({
         };
       },
     }),
+    payInvoice: builder.mutation({
+      query: ({ invoiceId }) => {
+        return {
+          url: `/invoice/create-checkout-session?invoiceId=${invoiceId}`,
+          method: "POST",
+        };
+      },
+    }),
   }),
 });
 
-export const { useGetInvoiceQuery } = invoiceApi;
+export const { useGetInvoiceQuery, usePayInvoiceMutation } = invoiceApi;

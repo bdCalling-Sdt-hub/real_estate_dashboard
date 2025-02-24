@@ -2,7 +2,6 @@ import React from "react";
 import { Table, Avatar } from "antd";
 import { useGetDashboardDataQuery } from "../../page/redux/api/dashboardApi";
 import { useSelector } from "react-redux";
-import parseJWT from "../../utils/parseJWT";
 
 export const UpcomingAppoinment = () => {
   const columns = [
@@ -44,12 +43,8 @@ export const UpcomingAppoinment = () => {
     },
   ];
 
-  const token = useSelector((state) => state.logInUser.token);
-  const { userId: clientId, authId } = parseJWT(token);
-
-  const { data: dashboardData, isLoading } = useGetDashboardDataQuery(
-    "67b2ee6abea0130fdd570d33"
-  );
+  const clientId = useSelector((state) => state.logInUser.clientId);
+  const { data: dashboardData, isLoading } = useGetDashboardDataQuery(clientId);
   return (
     <div>
       <h2 className="text-xl font-medium pt-3 pl-6">Upcoming Appointments</h2>

@@ -1,63 +1,32 @@
 import React, { useState } from "react";
-import { Table, Button, Tag, Input } from "antd";
+import { Table, Button, Tag, Input, message } from "antd";
 import { useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
-import { useGetInvoiceQuery } from "../redux/api/invoiceApi";
+import {
+  useGetInvoiceQuery,
+  usePayInvoiceMutation,
+} from "../redux/api/invoiceApi";
+import { useSelector } from "react-redux";
+
 export const InvoiceOrder = () => {
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
+  const limit = 10;
 
+  const clientId = useSelector((state) => state.logInUser.clientId);
   const { data: invoiceData, isLoading } = useGetInvoiceQuery({
     page,
     limit,
-    clientId: "67b2ee6abea0130fdd570d33",
+    clientId,
   });
-
-  console.log(invoiceData);
-
-  const data = [
-    {
-      key: "1",
-      orderId: "#12333",
-      orderDate: "12/04/24",
-      address: "2464 Royal Ln. Mesa, New Jersey",
-      services: 5,
-      total: "$546",
-      status: "Invoiced",
-      payment: "Pay Now",
-    },
-    {
-      key: "2",
-      orderId: "#12333",
-      orderDate: "12/04/24",
-      address: "3517 W. Gray St. Utica, Pennsylvania",
-      services: 6,
-      total: "$783",
-      status: "Unpaid",
-      payment: "Pay Now",
-    },
-    {
-      key: "3",
-      orderId: "#12333",
-      orderDate: "12/04/24",
-      address: "2715 Ash Dr. San Jose, South Dakota",
-      services: 3,
-      total: "$246",
-      status: "Paid",
-      payment: "Pay Now",
-    },
-    // Add more sample data as needed
-  ];
 
   const columns = [
     {
-      title: "Order ID",
-      dataIndex: "orderIds",
-      key: "orderIds",
-      render: (orderIds) => orderIds.map((order) => order._id).join(", "),
+      title: "ID",
+      dataIndex: "_id",
+      key: "_id",
     },
     {
-      title: "Order Date",
+      title: "Date",
       dataIndex: "date",
       key: "date",
       render: (date) =>
@@ -68,22 +37,10 @@ export const InvoiceOrder = () => {
         }),
     },
     {
-      title: "Address",
+      title: "Total Orders",
       dataIndex: "orderIds",
       key: "orderIds",
-      render: (orderIds) =>
-        orderIds
-          .map(
-            (order) =>
-              `${order.address.zipCode}, ${order.address.streetName}, ${order.address.streetAddress}, ${order.address.city}`
-          )
-          .join(", "),
-    },
-    {
-      title: "Services",
-      dataIndex: "services",
-      key: "services",
-      align: "center",
+      render: (orderIds) => orderIds?.length || 0,
     },
     {
       title: "Total",
@@ -133,11 +90,12 @@ export const InvoiceOrder = () => {
     },
     {
       title: "Payment",
-      dataIndex: "payment",
-      key: "payment",
+      dataIndex: "_id",
+      key: "_id",
       align: "center",
-      render: (payment) => (
+      render: (_id) => (
         <Button
+          onClick={() => handlePayment(_id)}
           style={{
             backgroundColor: "#2A216D",
             color: "white",
@@ -151,6 +109,17 @@ export const InvoiceOrder = () => {
     },
   ];
   const navigate = useNavigate();
+  const [payInvoice] = usePayInvoiceMutation();
+  const handlePayment = async (_id) => {
+    try {
+      const response = await payInvoice({ invoiceId: _id }).unwrap();
+      console.log(response);
+      message.success("Payment successful!");
+    } catch (error) {
+      console.error("Payment error:", error);
+      message.error("Payment failed!");
+    }
+  };
 
   return (
     <div className="bg-white p-6 min-h-screen">
@@ -183,6 +152,7 @@ export const InvoiceOrder = () => {
             `${range[0]}-${range[1]} of ${total} items`,
         }}
         bordered
+        loading={isLoading}
         style={{ marginTop: "20px" }}
       />
     </div>
