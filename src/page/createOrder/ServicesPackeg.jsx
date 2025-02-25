@@ -11,7 +11,7 @@ export const ServicesPackeg = ({
   const nonDefaultResult = selectedTab || searchTerm;
   const popularPackages = !nonDefaultResult
     ? packages?.data?.slice(0, 4)
-    : packages?.data || services?.data;
+    : packages?.data || services;
   const regularPackages = !nonDefaultResult
     ? packages?.data?.slice(4, packages?.data?.length)
     : [];
@@ -36,7 +36,7 @@ export const ServicesPackeg = ({
             display: nonDefaultResult ? "block" : "none",
           }}
         >
-          Showing {packages?.meta?.total || services?.meta?.total} result
+          Showing {packages?.meta?.total || services?.length || 0} result
         </h2>
         <div className="grid grid-cols-4 gap-5">
           {popularPackages &&

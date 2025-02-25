@@ -7,19 +7,20 @@ import {
   useGetAllServicesCategoriesQuery,
   useGetAllServicesQuery,
 } from "../redux/api/serviceApi";
+import { useSelector } from "react-redux";
 
 export const ServicesTab = ({ formData, setFormData }) => {
   const [selectedTab, setSelectedTab] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
 
+  const clientId = useSelector((state) => state.logInUser.clientId);
   const { data: servicesCategories } = useGetAllServicesCategoriesQuery();
   const { data: packages } = useGetAllPackageQuery({
     searchTerm,
   });
   const { data: services } = useGetAllServicesQuery({
-    category: selectedTab,
-    searchTerm,
-    limit: 100,
+    categoryId: selectedTab,
+    clientId: clientId,
   });
   return (
     <div className="mt-5">

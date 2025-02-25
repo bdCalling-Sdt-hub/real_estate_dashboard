@@ -11,11 +11,9 @@ const serviceApi = baseApi.injectEndpoints({
       },
     }),
     getAllServices: builder.query({
-      query: ({ category, searchTerm, limit = 100, page = 1 }) => {
-        const searchQuery = searchTerm ? `&searchTerm=${searchTerm}` : "";
-        const categoryQuery = category ? `&category=${category}` : "";
+      query: ({ categoryId, clientId }) => {
         return {
-          url: `/service/services?limit=${limit}&page=${page}${searchQuery}${categoryQuery}`,
+          url: `/service/get-client-service/${clientId}?categoryId=${categoryId}`,
           method: "GET",
         };
       },
