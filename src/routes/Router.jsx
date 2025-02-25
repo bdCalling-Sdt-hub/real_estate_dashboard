@@ -93,7 +93,7 @@ export const router = createBrowserRouter([
 
       {
         path: "/dashboard/invoice-order",
-        element: <InvoiceOrder></InvoiceOrder>,
+        element: <InvoiceOrder />,
       },
       {
         path: "/dashboard/team-member",

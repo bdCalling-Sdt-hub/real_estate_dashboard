@@ -17,6 +17,7 @@ import logo from "../../assets/header/logo1.png";
 import { FaChevronRight } from "react-icons/fa";
 
 import { IoIosLogIn } from "react-icons/io";
+import { useGetProfileQuery } from "../../page/redux/api/userApi";
 
 const items = [
   {
@@ -125,12 +126,13 @@ const Header = () => {
     localStorage.removeItem("token");
     navigate("/login");
   };
+  const { data } = useGetProfileQuery();
   return (
     <div className="bg-[#FEFEFE] text-white pt-[24px]">
       <div className="flex justify-between">
         <div className="lg:hidden ">
           <div className="py-3 pl-4">
-            <div onClick={showDrawer} className="text-3xl ">
+            <div onClick={showDrawer} className="text-3xl text-gray-700">
               <FaBars />
             </div>
           </div>
@@ -264,13 +266,17 @@ const Header = () => {
             <div className="flex gap-3">
               <div>
                 <img
-                  className="w-[45px] h-[45px]"
-                  src={profilee}
+                  className="w-[45px] h-[45px] rounded-full object-cover"
+                  src={
+                    data?.data?.profile_image
+                      ? `${import.meta.env.VITE_BASE_URL}/${data?.data?.profile_image}`
+                      : `https://ui-avatars.com/api/?name=${data?.data?.name}`
+                  }
                   alt="profile"
                 />
               </div>
-              <div className="text-end">
-                <h3>{"Loading..."}</h3>
+              <div className="text-end text-black">
+                <h3>{data?.data?.name || "Loading..."}</h3>
                 <h4 className="text-sm">Admin</h4>
               </div>
             </div>

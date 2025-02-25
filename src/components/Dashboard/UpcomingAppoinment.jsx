@@ -1,6 +1,6 @@
 import React from "react";
 import { Table, Avatar } from "antd";
-import { useGetDashboardDataQuery } from "../../page/redux/api/dashboardApi";
+import { useGetUpcomingAppointmentQuery } from "../../page/redux/api/dashboardApi";
 import { useSelector } from "react-redux";
 
 export const UpcomingAppoinment = () => {
@@ -49,7 +49,8 @@ export const UpcomingAppoinment = () => {
   ];
 
   const clientId = useSelector((state) => state.logInUser.clientId);
-  const { data: dashboardData, isLoading } = useGetDashboardDataQuery(clientId);
+  const { data: dashboardData, isLoading } =
+    useGetUpcomingAppointmentQuery(clientId);
   return (
     <div>
       <h2 className="text-xl font-medium pt-3 pl-6">Upcoming Appointments</h2>

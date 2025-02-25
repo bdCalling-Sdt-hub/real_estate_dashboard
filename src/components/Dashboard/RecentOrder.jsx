@@ -1,47 +1,21 @@
-import React from "react";
-import { Table, Avatar, Tag } from "antd";
+import { Table, Avatar, Tag, Spin } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useGetRecentOrderQuery } from "../../page/redux/api/dashboardApi";
+import dayjs from "dayjs";
 
 export const RecentOrder = () => {
-  const data = [
-    {
-      key: "1",
-      orderId: "#12333",
-      orderDate: "12/04/24",
-      client: { avatar: "https://i.pravatar.cc/150?img=1", name: "Jacob Jones" },
-      address: "2464 Royal Ln. Mesa, New Jersey",
-      items: 2,
-      total: "$546",
-      appointment: "12/04/24 at 3:00 pm",
-      status: "Completed",
-      payment: "Paid",
-    },
-    {
-      key: "2",
-      orderId: "#12333",
-      orderDate: "12/04/24",
-      client: { avatar: "https://i.pravatar.cc/150?img=2", name: "Dianne Russell" },
-      address: "3517 W. Gray St. Utica, Pennsylvania",
-      items: 6,
-      total: "$783",
-      appointment: "08/04/24 at 5:00 pm",
-      status: "Completed",
-      payment: "Paid",
-    },
-    {
-      key: "3",
-      orderId: "#12333",
-      orderDate: "12/04/24",
-      client: { avatar: "https://i.pravatar.cc/150?img=3", name: "Robert Fox" },
-      address: "2715 Ash Dr. San Jose, South Dakota",
-      items: 3,
-      total: "$246",
-      appointment: "02/04/24 at 4:00 pm",
-      status: "Completed",
-      payment: "Invoiced",
-    },
-  ];
+  const clientId = useSelector((state) => state.logInUser.clientId);
+  const { data: dashboardData, isLoading } = useGetRecentOrderQuery(clientId);
+
+  if (isLoading) {
+    return (
+      <div className="p-6 bg-white min-h-screen flex justify-center items-center">
+        <Spin />
+      </div>
+    );
+  }
 
   const columns = [
     {
@@ -61,19 +35,26 @@ export const RecentOrder = () => {
     },
     {
       title: "Agent",
-      dataIndex: "client",
-      key: "client",
-      render: (client) => (
+      dataIndex: "member",
+      key: "member",
+      render: (member) => (
         <div className="flex items-center">
-          <Avatar src={client.avatar} alt={client.name} />
-          <span style={{ marginLeft: 8 }}>{client.name}</span>
+          <Avatar
+            src={
+              member.profile_image
+                ? `${import.meta.env.VITE_BASE_URL}/${member.profile_image}`
+                : `https://ui-avatars.com/api/?name=${member.name}`
+            }
+            alt={member.name}
+          />
+          <span style={{ marginLeft: 8 }}>{member.name}</span>
         </div>
       ),
     },
     {
       title: "Services",
-      dataIndex: "items",
-      key: "items",
+      dataIndex: "services",
+      key: "services",
     },
     {
       title: "Total",
@@ -82,8 +63,9 @@ export const RecentOrder = () => {
     },
     {
       title: "Appointments",
-      dataIndex: "appointment",
-      key: "appointment",
+      dataIndex: "appointments",
+      key: "appointments",
+      render: (appointments) => dayjs(appointments).format("DD/MM/YY"),
     },
     {
       title: "Status",
@@ -107,8 +89,8 @@ export const RecentOrder = () => {
     },
     {
       title: "Payment",
-      dataIndex: "payment",
-      key: "payment",
+      dataIndex: "paymentStatus",
+      key: "paymentStatus",
       render: (payment) => {
         let color = payment === "Paid" ? "#A7F3D0" : "#FDE68A";
         let textColor = payment === "Paid" ? "#1D4E35" : "#92400E";
@@ -128,12 +110,11 @@ export const RecentOrder = () => {
     },
     {
       title: "Details",
-      key: "details",
-      render: () => (
-        <div
-          className="bg-[#2A216D] w-[30px] h-[30px] text-white flex justify-center items-center rounded"
-        >
-          <Link to={"/dashboard/order-management/order-details"}>
+      key: "orderId",
+      dataIndex: "orderId",
+      render: (orderId) => (
+        <div className="bg-[#2A216D] w-[30px] h-[30px] text-white flex justify-center items-center rounded">
+          <Link to={`/dashboard/order-management/order-details/${orderId}`}>
             <EyeOutlined />
           </Link>
         </div>
@@ -145,7 +126,7 @@ export const RecentOrder = () => {
     <div>
       <h2 className="text-xl font-medium pt-3 pl-6">Recent Delivered Order</h2>
       <Table
-        dataSource={data}
+        dataSource={dashboardData?.data}
         columns={columns}
         pagination={false}
         bordered
