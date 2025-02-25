@@ -27,6 +27,8 @@ export const RecentOrder = () => {
       title: "Order Date",
       dataIndex: "orderDate",
       key: "orderDate",
+      render: (date) =>
+        date != "N/A" ? dayjs(date).format("DD/MM/YY") : "N/A",
     },
     {
       title: "Address",
@@ -34,20 +36,20 @@ export const RecentOrder = () => {
       key: "address",
     },
     {
-      title: "Agent",
+      title: "Team Member",
       dataIndex: "member",
       key: "member",
       render: (member) => (
         <div className="flex items-center">
           <Avatar
             src={
-              member.profile_image
-                ? `${import.meta.env.VITE_BASE_URL}/${member.profile_image}`
-                : `https://ui-avatars.com/api/?name=${member.name}`
+              member[0].profile_image
+                ? `${import.meta.env.VITE_BASE_URL}/${member[0].profile_image}`
+                : `https://ui-avatars.com/api/?name=${member[0].name}`
             }
-            alt={member.name}
+            alt={member[0].name}
           />
-          <span style={{ marginLeft: 8 }}>{member.name}</span>
+          <span style={{ marginLeft: 8 }}>{member[0].name}</span>
         </div>
       ),
     },
@@ -60,12 +62,18 @@ export const RecentOrder = () => {
       title: "Total",
       dataIndex: "total",
       key: "total",
+      render: (amount) =>
+        `${Number(amount || 0).toLocaleString("en-US", {
+          style: "currency",
+          currency: "USD",
+        })}`,
     },
     {
       title: "Appointments",
       dataIndex: "appointments",
       key: "appointments",
-      render: (appointments) => dayjs(appointments).format("DD/MM/YY"),
+      render: (appointments) =>
+        appointments != "N/A" ? dayjs(appointments).format("DD/MM/YY") : "N/A",
     },
     {
       title: "Status",
