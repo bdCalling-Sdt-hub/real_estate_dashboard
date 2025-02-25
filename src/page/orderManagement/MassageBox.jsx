@@ -196,7 +196,7 @@ const RevisionMessage = ({ msg, authId }) => {
         )}
         <p
           className={`text-gray-600 text-sm pl-1 max-h-[100px] overflow-hidden ${
-            showMore ? "max-h-full" : "max-h-[100px]"
+            showMore ? "max-h-full" : "max-h-[60px]"
           }`}
         >
           <strong>Message: </strong>

@@ -113,8 +113,11 @@ export const InvoiceOrder = () => {
   const handlePayment = async (_id) => {
     try {
       const response = await payInvoice({ invoiceId: _id }).unwrap();
-      console.log(response);
-      message.success("Payment successful!");
+      if (response?.data?.url) {
+        window.open(response?.data?.url, "_blank");
+      } else {
+        message.error("Payment failed!");
+      }
     } catch (error) {
       console.error("Payment error:", error);
       message.error("Payment failed!");
