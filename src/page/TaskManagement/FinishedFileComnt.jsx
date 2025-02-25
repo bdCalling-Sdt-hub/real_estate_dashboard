@@ -289,7 +289,7 @@ const RevisionComponent = ({
             </p>
           </div>
         </div>
-        <div className="flex justify-between mt-4">
+        <div className="flex justify-between items-end mt-4">
           <p className="text-gray-600 text-sm">{comment?.comment?.text}</p>
           <button
             onClick={() => handleReplyToggle(comment._id)}
