@@ -2,6 +2,7 @@ import React from "react";
 import { Table, Avatar } from "antd";
 import { useGetUpcomingAppointmentQuery } from "../../page/redux/api/dashboardApi";
 import { useSelector } from "react-redux";
+import dayjs from "dayjs";
 
 export const UpcomingAppoinment = () => {
   const columns = [
@@ -27,9 +28,13 @@ export const UpcomingAppoinment = () => {
       render: (member) => (
         <div className="flex items-center">
           <Avatar
-            src={`${import.meta.env.VITE_BASE_URL}${
+            src={
               member?.[0]?.profile_image
-            }`}
+                ? `${import.meta.env.VITE_BASE_URL}${
+                    member?.[0]?.profile_image
+                  }`
+                : `https://ui-avatars.com/api/?name=${member?.[0]?.name}`
+            }
             alt=""
           />
           <span style={{ marginLeft: 8 }}>{member?.[0]?.name}</span>
@@ -45,6 +50,10 @@ export const UpcomingAppoinment = () => {
       title: "Appointments",
       dataIndex: "appointments",
       key: "appointments",
+      render: (appointments) =>
+        appointments != "N/A"
+          ? dayjs(appointments).format("DD/MM/YYYY hh:mm A")
+          : "No Appointments",
     },
   ];
 
