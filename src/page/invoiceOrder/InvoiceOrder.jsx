@@ -1,10 +1,20 @@
-import React, { useState } from "react";
-import { Table, Button, Tag, Input, message } from "antd";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import {
+  Table,
+  Button,
+  Tag,
+  Input,
+  message,
+  Modal,
+  Typography,
+  Space,
+} from "antd";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import {
   useGetInvoiceQuery,
   usePayInvoiceMutation,
+  useSavePaymentMutation,
 } from "../redux/api/invoiceApi";
 import { useSelector } from "react-redux";
 
@@ -93,19 +103,24 @@ export const InvoiceOrder = () => {
       dataIndex: "_id",
       key: "_id",
       align: "center",
-      render: (_id) => (
-        <Button
-          onClick={() => handlePayment(_id)}
-          style={{
-            backgroundColor: "#2A216D",
-            color: "white",
-            borderRadius: "50px",
-            fontSize: "14px",
-          }}
-        >
-          Pay Now
-        </Button>
-      ),
+      render: (_id, { status }) => {
+        return (
+          <Button
+            onClick={() => handlePayment(_id)}
+            disabled={status === "Paid"}
+            style={{
+              backgroundColor: status === "Paid" ? "#ccc" : "#2A216D",
+              color: status === "Paid" ? "#666" : "white",
+              borderRadius: "50px",
+              fontSize: "14px",
+              cursor: status === "Paid" ? "not-allowed" : "pointer",
+              opacity: status === "Paid" ? 0.6 : 1,
+            }}
+          >
+            Pay Now
+          </Button>
+        );
+      },
     },
   ];
   const navigate = useNavigate();
@@ -124,6 +139,16 @@ export const InvoiceOrder = () => {
     }
   };
 
+  const [searchParams] = useSearchParams() || {};
+  const stripe_session_id = searchParams.get("session_id");
+
+  const [stripeModalOpen, setStripeModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (stripe_session_id) {
+      setStripeModalOpen(stripe_session_id);
+    }
+  }, [stripe_session_id]);
   return (
     <div className="bg-white p-6 min-h-screen">
       <div
@@ -158,6 +183,71 @@ export const InvoiceOrder = () => {
         loading={isLoading}
         style={{ marginTop: "20px" }}
       />
+      <StripeSuccessModal open={stripeModalOpen} setOpen={setStripeModalOpen} />
     </div>
+  );
+};
+
+const { Title, Text } = Typography;
+const StripeSuccessModal = ({ open, setOpen }) => {
+  const [savePayment] = useSavePaymentMutation();
+
+  useEffect(() => {
+    if (open) {
+      savePayment({ session_id: open });
+    }
+  }, [open]);
+  return (
+    <Modal
+      title={null}
+      open={open}
+      onOk={() => setOpen(false)}
+      onCancel={() => setOpen(false)}
+      footer={[
+        <div className="flex justify-center w-full mt-4">
+          <Button key="close" type="primary" onClick={() => setOpen(false)}>
+            Close
+          </Button>
+        </div>,
+      ]}
+      style={{ textAlign: "center" }}
+      centered
+    >
+      <Space
+        direction="vertical"
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        {/* Success Icon - Inline SVG */}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 64 64"
+          width="80"
+          height="80"
+          style={{ marginBottom: "20px" }}
+        >
+          <circle cx="32" cy="32" r="30" fill="#52c41a" />
+          <path
+            d="M20 31.5l9 9 18-18"
+            stroke="white"
+            strokeWidth="4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+
+        {/* Success Message */}
+        <Title level={3} style={{ color: "#52c41a" }}>
+          Payment Successful!
+        </Title>
+
+        <Text type="secondary">
+          Your payment was processed successfully. Thank you for your order.
+        </Text>
+      </Space>
+    </Modal>
   );
 };

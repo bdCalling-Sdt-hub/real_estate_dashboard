@@ -139,7 +139,7 @@ const TaskStatus = ({ status }) => {
         className="relative text-black text-[26px] group"
       >
         <FaGears className={getStatusColor("In-Production")} />
-        <PopOver status="In-Production" activeStatus={service.status} />
+        <PopOver status="In-Production" activeStatus={status} />
       </button>
       <button className="relative text-black text-[26px] group">
         <LuFileCheck2 className={getStatusColor("Delivered")} />

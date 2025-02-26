@@ -22,7 +22,17 @@ const invoiceApi = baseApi.injectEndpoints({
         };
       },
     }),
+    savePayment: builder.mutation({
+      query: ({ session_id }) => ({
+        url: `/invoice/stripe-webhooks?session_id=${session_id}`,
+        method: "POST",
+      }),
+    }),
   }),
 });
 
-export const { useGetInvoiceQuery, usePayInvoiceMutation } = invoiceApi;
+export const {
+  useGetInvoiceQuery,
+  usePayInvoiceMutation,
+  useSavePaymentMutation,
+} = invoiceApi;
