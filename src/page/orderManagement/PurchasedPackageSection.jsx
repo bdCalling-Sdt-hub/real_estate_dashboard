@@ -122,17 +122,17 @@ const TaskStatus = ({ status }) => {
   };
   return (
     <div className="flex items-center space-x-11 border justify-between ml-4 px-5 py-2 rounded-md">
-      <button className="relative text-black text-[26px] group">
-        <LuFileCheck className={getStatusColor("Submitted")} />
-        <PopOver status="Submitted" activeStatus={status} />
+      <button className="relative text-red-300 text-[24px] group">
+        <TfiReload className={getStatusColor("Pending")} />
+        <PopOver status="Pending" activeStatus={status} />
       </button>
       <button className="relative text-black text-[26px] group">
         <SlCalender className={getStatusColor("Scheduled")} />
         <PopOver status="Scheduled" activeStatus={status} />
       </button>
-      <button className="relative text-red-300 text-[24px] group">
-        <TfiReload className={getStatusColor("Pending")} />
-        <PopOver status="Pending" activeStatus={status} />
+      <button className="relative text-black text-[26px] group">
+        <LuFileCheck className={getStatusColor("Submitted")} />
+        <PopOver status="Submitted" activeStatus={status} />
       </button>
       <button className="relative text-black text-[26px] group">
         <LuFileCheck2 className={getStatusColor("Delivered")} />
