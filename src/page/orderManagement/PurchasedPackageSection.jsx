@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { LuDownload, LuFileCheck, LuFileCheck2 } from "react-icons/lu";
 import { MdLink } from "react-icons/md";
 import { SlCalender } from "react-icons/sl";
@@ -8,6 +7,7 @@ import { FaRegEye } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { message } from "antd";
 import { IoCheckmarkDoneCircleSharp } from "react-icons/io5";
+import { FaGears } from "react-icons/fa6";
 
 export const PurchasedPackageSection = ({ tasks }) => {
   const handleCopyLink = (files) => {
@@ -133,6 +133,13 @@ const TaskStatus = ({ status }) => {
       <button className="relative text-black text-[26px] group">
         <LuFileCheck className={getStatusColor("Submitted")} />
         <PopOver status="Submitted" activeStatus={status} />
+      </button>
+      <button
+        onClick={() => handleUpdateTaskStatus("In-Production")}
+        className="relative text-black text-[26px] group"
+      >
+        <FaGears className={getStatusColor("In-Production")} />
+        <PopOver status="In-Production" activeStatus={service.status} />
       </button>
       <button className="relative text-black text-[26px] group">
         <LuFileCheck2 className={getStatusColor("Delivered")} />
