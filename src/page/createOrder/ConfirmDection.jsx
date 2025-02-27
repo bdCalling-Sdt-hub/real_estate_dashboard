@@ -132,6 +132,9 @@ export const ConfirmSection = ({ formData, setFormData }) => {
 
 const FileUploadAndDescription = ({ formData, setFormData }) => {
   const uploadProps = {
+    customRequest: ({ onSuccess }) => {
+      onSuccess("ok");
+    },
     onChange: (info) => {
       setFormData({ ...formData, uploadFiles: info.fileList });
     },
