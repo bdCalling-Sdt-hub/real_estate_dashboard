@@ -32,6 +32,7 @@ import { TaskManagementPage } from "../page/TaskManagement/TaskManagementPage";
 import Settings from "../page/Settings/Settings";
 import ProtectedRoute from "../protectedRoute/ProtectedRoute";
 import TermsCondition from "../page/Settings/TermsCondition";
+import { Agent } from "../page/agent/Agent";
 
 export const router = createBrowserRouter([
   {
@@ -94,6 +95,10 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/invoice-order",
         element: <InvoiceOrder />,
+      },
+      {
+        path: "/dashboard/agent",
+        element: <Agent></Agent>,
       },
       {
         path: "/dashboard/team-member",

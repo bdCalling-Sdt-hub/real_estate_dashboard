@@ -46,6 +46,12 @@ const items = [
     link: "/dashboard/invoice-order",
   },
   {
+    key: "agent",
+    label: "Agent",
+    icon: <PiClockUserLight />,
+    link: "/dashboard/agent",
+  },
+  {
     key: "Settings",
     label: "Settings",
     icon: <IoSettingsOutline />,
