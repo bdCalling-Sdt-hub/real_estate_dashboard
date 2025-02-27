@@ -37,8 +37,8 @@ const CreateServices = () => {
       }
     }
 
-    // Step 2: Address Tab Validation
-    if (activeTab === 2) {
+    // Step 2: Address Tab Validation    
+    if (activeTab === 1) {
       const { zipCode, city, streetAddress, streetName, streetNumber } =
         formData.address || {};
 
@@ -52,7 +52,7 @@ const CreateServices = () => {
         return;
       }
 
-      setActiveTab(3);
+      setActiveTab(2);
     }
 
     // Step 3: Contact Info Tab Validation
