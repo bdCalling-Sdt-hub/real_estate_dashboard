@@ -42,6 +42,12 @@ console.log(getProfile?.data?.can_add_new_agent)
       phone: agent?.phone_number,
       address: agent?.address,
       profile_image: agent?.profile_image,
+      place_an_order:agent?.place_an_order,
+      can_see_all_order:agent?.can_see_all_order,
+      can_see_invoice:agent?.can_see_invoice,
+      can_see_assigned_order:agent?.can_see_assigned_order,
+      can_see_pricing:agent?.can_see_pricing,
+      can_add_new_agent:agent?.can_add_new_agent,
     })) || [];
 
   const handleEdit = (record) => {

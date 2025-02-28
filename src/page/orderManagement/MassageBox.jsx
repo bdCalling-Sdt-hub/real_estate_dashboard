@@ -51,7 +51,7 @@ const Messages = () => {
   }, [messages]);
 
   useEffect(() => {
-    const newSocket = io(`http://10.0.60.118:5000?id=${authId}`);
+    const newSocket = io(`http://10.0.60.118:5002?id=${authId}`);
     setSocket(newSocket);
 
     newSocket.emit("order-messages", {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Input, Checkbox, Modal, message } from "antd";
+import { Form, Input, Checkbox, Modal, message, Spin } from "antd";
 import { IoCameraOutline } from "react-icons/io5";
 import { useAddAgentManagementMutation } from "../redux/api/agentApi";
 
@@ -11,8 +11,9 @@ export const AddAgentModal = ({ openAddModal, setOpenAddModal, singleClientAgent
     id: agent?.clientId, 
   })) || [];
   
-
-
+  const [fileList, setFileList] = useState([]);
+  const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
 
   const [addAgent] = useAddAgentManagementMutation();
   const [passError, setPassError] = useState("");
@@ -22,6 +23,24 @@ export const AddAgentModal = ({ openAddModal, setOpenAddModal, singleClientAgent
     const file = e.target.files[0];
     setImage(file);  
   };
+
+const [permissions, setPermissions] = useState({
+    place_an_order: false,
+    can_see_all_order: false,
+    can_see_assigned_order: false,
+    can_see_pricing: false,
+    can_add_new_agent: false,
+    can_see_invoice: false,
+  });
+  console.log(permissions)
+
+  const handleCheckboxChange = (key, checked) => {
+    setPermissions((prev) => ({
+      ...prev,
+      [key]: checked,
+    }));
+  };
+
 
   const handleSubmit = async (values) => {
   
@@ -39,33 +58,45 @@ export const AddAgentModal = ({ openAddModal, setOpenAddModal, singleClientAgent
     formData.append("confirmPassword", values.confirmPassword);
     formData.append("role", "AGENT"); 
 
- 
+    Object.keys(permissions).forEach((key) => {
+      formData.append(key, permissions[key]);
+    });
+
     if (image) {
       formData.append("profile_image", image);  
     }
-
+    setLoading(true);
     try {
       const response = await addAgent( formData ).unwrap(); 
      message.success(response?.message)
-      setOpenAddModal(false); 
+     form.resetFields();
+     setOpenAddModal(false);
     } catch (error) {
       message.error(error?.data?.message)
       console.error("Error adding agent:", error);
 
     }
+    
+    setLoading(false);
+  };
+
+  const handleCancel = () => {
+    form.resetFields();
+    setFileList([]);
+    setOpenAddModal(false);
   };
 
   return (
     <Modal
       centered
       open={openAddModal}
-      onCancel={() => setOpenAddModal(false)}
+      onCancel={handleCancel}
       footer={null}
       width={600}
     >
       <div className="mb-6 mt-4">
         <h2 className="text-center font-bold text-lg mb-11">Add Agent</h2>
-        <Form layout="vertical" onFinish={handleSubmit}>
+        <Form layout="vertical" form={form} onFinish={handleSubmit}>
           <div className="relative w-[140px] h-[140px] mx-auto mb-6">
             <input
               type="file"
@@ -150,16 +181,29 @@ export const AddAgentModal = ({ openAddModal, setOpenAddModal, singleClientAgent
           >
             <Input.Password className="py-2" placeholder="Confirm new password" />
           </Form.Item>
-          {/* <Form.Item label="Give Access To">
-                                <div className="flex flex-col gap-3">
-                                <Checkbox> Place an orders </Checkbox>                        
-                                <Checkbox> Can see the pricing </Checkbox>
-                                <Checkbox> Can see only their order assigned to</Checkbox>
-                                <Checkbox> Can see all orders </Checkbox>
-                                <Checkbox> Can add new agents </Checkbox>
-                                <Checkbox> Can see invoicing</Checkbox>
-                                </div>
-                              </Form.Item> */}
+          <Form.Item label="Give Access To">
+            <div className="flex flex-col gap-3">
+              <Checkbox onChange={(e) => handleCheckboxChange("place_an_order", e.target.checked)}>
+                Place an order
+              </Checkbox>
+              <Checkbox onChange={(e) => handleCheckboxChange("can_see_all_order", e.target.checked)}>
+                Can see all orders
+              </Checkbox>
+              <Checkbox onChange={(e) => handleCheckboxChange("can_see_assigned_order", e.target.checked)}>
+                Can see only their assigned orders
+              </Checkbox>
+              <Checkbox onChange={(e) => handleCheckboxChange("can_see_pricing", e.target.checked)}>
+                Can see pricing
+              </Checkbox>
+              <Checkbox onChange={(e) => handleCheckboxChange("can_add_new_agent", e.target.checked)}>
+                Can add new agents
+              </Checkbox>
+              <Checkbox onChange={(e) => handleCheckboxChange("can_see_invoice", e.target.checked)}>
+                Can see invoicing
+              </Checkbox>
+            </div>
+          </Form.Item>
+
 
           {passError && <p className="text-red-600 -mt-4 mb-2">{passError}</p>}
 
@@ -167,15 +211,20 @@ export const AddAgentModal = ({ openAddModal, setOpenAddModal, singleClientAgent
             <button
               type="button"
               className="px-4 py-3 w-full border text-[#2A216D] rounded-md"
-              onClick={() => setOpenAddModal(false)}
+              onClick={handleCancel}
             >
               Cancel
             </button>
             <button
               type="submit"
               className="px-4 py-3 w-full bg-[#2A216D] text-white rounded-md"
+              disabled={loading}
             >
-              Add
+              {loading ? (
+                <Spin size="small" /> 
+              ) : (
+                "Add"
+              )}
             </button>
           </div>
         </Form>
