@@ -18,6 +18,7 @@ import { LiaUsersSolid } from "react-icons/lia";
 import { IoBagOutline, IoSettingsOutline } from "react-icons/io5";
 import { logout } from "../../page/redux/features/auth/authSlice";
 import { useDispatch } from "react-redux";
+import { useGetProfileQuery } from "../../page/redux/api/userApi";
 
 
 const items = [
@@ -61,6 +62,8 @@ const items = [
 ];
 
 const SidBar = () => {
+  const{data:getProfile}=useGetProfileQuery();
+  console.log(getProfile?.data?.place_an_order)
   const [selectedKey, setSelectedKey] = useState("dashboard");
   const [expandedKeys, setExpandedKeys] = useState([]);
   const location = useLocation();
@@ -102,6 +105,18 @@ const SidBar = () => {
     dispatch(logout())
     navigate("/login");
   };
+  console.log("+====",getProfile)
+  const filteredItems = items.filter(item => {
+    if (item.key === "agent" && !getProfile?.data?.can_add_new_agent) {
+      return false;  
+    }
+    if (item.key === "InvoiceOrder" && !getProfile?.data?.can_see_invoice) {
+      return false;  
+    }
+    return true;
+   });
+
+
 
   return (
     <div className="custom-sidebar h-full bg-[#FEFEFE] shadow-sm">
@@ -109,13 +124,16 @@ const SidBar = () => {
       <div className="custom-sidebar-logo flex justify-center mt-5 mb-8">
         <img src={logo} alt="Logo" className="w-[160px]" />
       </div>
-      <div className="mx-5 mb-6">
+      {getProfile?.data&& getProfile?.data?.place_an_order && (
+        <div className="mx-5 mb-6">
       <Link to={'/dashboard/create-services'}><button className="bg-[#2A216D] text-white py-2 w-full rounded">+ Create Order</button></Link>
       </div>
 
+      )}
+
       {/* Sidebar Menu */}
       <div className="menu-items">
-        {items.map((item) => (
+        {filteredItems.map((item) => (
           <div key={item.key}>
             <Link
               to={item.link}

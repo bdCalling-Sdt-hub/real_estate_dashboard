@@ -25,7 +25,7 @@ export const ServicesTab = ({ formData, setFormData }) => {
   return (
     <div className="mt-5">
       <div className="flex justify-between">
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-3">
           <div
             onClick={() => setSelectedTab(null)}
             className={`px-11 py-1  cursor-pointer ${
@@ -51,11 +51,13 @@ export const ServicesTab = ({ formData, setFormData }) => {
           ))}
         </div>
 
-        <Input
+       <div>
+       <Input
           placeholder="Search here..."
           style={{ width: 300 }}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
+       </div>
       </div>
 
       <div>

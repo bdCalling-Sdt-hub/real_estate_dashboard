@@ -9,8 +9,11 @@ import { EditAgent } from "./EditAgent";
 import { imageUrl } from "../redux/api/baseApi";
 import { useDeleteAccountMutation, useGetSingleClientManagementQuery } from "../redux/api/agentApi";
 import { useSelector } from "react-redux";
+import { useGetProfileQuery } from "../redux/api/userApi";
 
 export const Agent = () => {
+    const{data:getProfile}=useGetProfileQuery();
+console.log(getProfile?.data?.can_add_new_agent)
     const id = useSelector((state) => state.logInUser.clientId);
   
  console.log(id)
@@ -64,6 +67,18 @@ export const Agent = () => {
     });
   };
 
+  if (!getProfile?.data?.can_add_new_agent) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-white">
+        <div className="bg-white p-8 rounded-lg  text-center">
+          <h2 className="text-4xl font-semibold text-[#EF4849] mb-4">Access Denied</h2>
+          <p className="text-lg mb-4">You do not have permission to add a new agent.</p>
+         
+        </div>
+      </div>
+    );
+  }
+  
 
   const columns = [
     {

@@ -8,8 +8,11 @@ import { useCreateOrderMutation } from "../redux/api/ordersApi";
 import { message, Spin } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useGetProfileQuery } from "../redux/api/userApi";
 
 const CreateServices = () => {
+  const{data:getProfile}=useGetProfileQuery();
+console.log(getProfile?.data?.place_an_order)
   const [activeTab, setActiveTab] = useState(0);
   const [formData, setFormData] = useState({
     serviceIds: [],

@@ -8,8 +8,11 @@ import { useGetOrderByIdQuery } from "../redux/api/ordersApi";
 import dayjs from "dayjs";
 import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
 import { menu } from "./constant";
+import { useGetProfileQuery } from "../redux/api/userApi";
 
 export const OrderDetailsPage = () => {
+  const{data:getProfile}=useGetProfileQuery(); 
+  // console.log('============',getProfile?.data?.can_see_pricing)
   const { id } = useParams();
   const navigate = useNavigate();
   const { data: order, isLoading } = useGetOrderByIdQuery(id);
@@ -49,20 +52,21 @@ export const OrderDetailsPage = () => {
       <div className=" max-w-7xl m-auto ">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Section */}
-          <div className="lg:col-span-2">
-            <div className="  mb-6 border p-4 rounded-md">
-              <div className="flex justify-between">
-                <h2 className="text-xl font-semibold text-right">
-                  Total Price
-                </h2>
-                <p className=" font-bold text-lg">
-                  {Number(order?.data?.totalAmount).toLocaleString("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                  })}
-                </p>
-              </div>
-            </div>
+          <div className="lg:col-span-2"> 
+  <div className="mb-6 border p-4 rounded-md">
+    <div className="flex justify-between">
+      <h2 className="text-xl font-semibold text-right">Total Price</h2>
+      <p className="font-bold text-lg">
+        {getProfile?.data?.can_see_pricing && (
+          Number(order?.data?.totalAmount).toLocaleString("en-US", {
+            style: "currency",
+            currency: "USD",
+          })
+        )}
+      </p>
+    </div>
+  </div> 
+
 
             <div className="border flex justify-between p-4 rounded-md items-center">
               <p className="font-semibold">Appointment</p>

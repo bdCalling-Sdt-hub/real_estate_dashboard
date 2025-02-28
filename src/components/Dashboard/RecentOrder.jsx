@@ -4,8 +4,10 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useGetRecentOrderQuery } from "../../page/redux/api/dashboardApi";
 import dayjs from "dayjs";
+import { useGetProfileQuery } from "../../page/redux/api/userApi";
 
 export const RecentOrder = () => {
+    const{data:getProfile}=useGetProfileQuery(); 
   const clientId = useSelector((state) => state.logInUser.clientId);
   const { data: dashboardData, isLoading } = useGetRecentOrderQuery(clientId);
 
@@ -58,7 +60,7 @@ export const RecentOrder = () => {
       dataIndex: "services",
       key: "services",
     },
-    {
+    ...(getProfile?.data?.can_see_pricing ? [{
       title: "Total",
       dataIndex: "total",
       key: "total",
@@ -67,7 +69,7 @@ export const RecentOrder = () => {
           style: "currency",
           currency: "USD",
         })}`,
-    },
+    }] : []),
     {
       title: "Appointments",
       dataIndex: "appointments",
@@ -116,7 +118,7 @@ export const RecentOrder = () => {
         );
       },
     },
-    {
+    ...(getProfile?.data?.can_see_all_order ? [{
       title: "Details",
       key: "orderId",
       dataIndex: "orderId",
@@ -127,7 +129,8 @@ export const RecentOrder = () => {
           </Link>
         </div>
       ),
-    },
+    }] : []),
+    
   ];
 
   return (

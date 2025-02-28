@@ -157,16 +157,15 @@ const client = baseApi.injectEndpoints({
     //     invalidatesTags: ["updateProfile"],
     //   }),
 
-    //   updateService: builder.mutation({
-    //     query: ({ data, id }) => {
-    //       return {
-    //         url: `/service/update-service/${id}`,
-    //         method: "PATCH",
-    //         body: data,
-    //       };
-    //     },
-    //     invalidatesTags: ["updateProfile"],
-    //   }),
+      updateSeenNotification: builder.mutation({
+        query: () => {
+          return {
+            url: `/notification/seen-notification`,
+            method: "PATCH",
+          };
+        },
+        invalidatesTags: ["updateProfile"],
+      }),
 
     //   deleteServices: builder.mutation({
     //     query: (id) => {
@@ -193,6 +192,7 @@ export const {
  useUpdateTeamMemberMutation,
  useDeleteAccountMutation,
  useGetNotificationQuery,
- useDeleteNotificationMutation
+ useDeleteNotificationMutation,
+ useUpdateSeenNotificationMutation
   
 } = client;

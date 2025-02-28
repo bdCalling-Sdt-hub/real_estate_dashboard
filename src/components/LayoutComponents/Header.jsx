@@ -19,7 +19,7 @@ import { FaChevronRight } from "react-icons/fa";
 import { IoIosLogIn } from "react-icons/io";
 import { useGetProfileQuery } from "../../page/redux/api/userApi";
 import { useSelector } from "react-redux";
-import { useGetNotificationQuery } from "../../page/redux/api/agentApi";
+import { useGetNotificationQuery, useUpdateSeenNotificationMutation } from "../../page/redux/api/agentApi";
 
 const items = [
   {
@@ -100,6 +100,7 @@ const Header = () => {
   const navigate = useNavigate();
   const id = useSelector((state) => state.logInUser.clientId);
   const { data: notificationData } = useGetNotificationQuery({ id });
+  const [updateSeenNotif] = useUpdateSeenNotificationMutation();
 
   const contentRef = useRef({});
   
@@ -130,6 +131,15 @@ const Header = () => {
     navigate("/login");
   };
   const { data } = useGetProfileQuery();
+  const unSeenNotification = notificationData?.data?.filter(data => !data.status);
+
+  const handleOnclick = () => {
+    if (unSeenNotification?.length) {
+      // Update the notifications status to seen (true) when clicked
+      updateSeenNotif();
+      
+    }
+  };
   return (
     <div className="bg-[#FEFEFE] text-white pt-[24px]">
       <div className="flex justify-between">
@@ -144,7 +154,7 @@ const Header = () => {
         <div className="flex gap-8 p-1 px-6">
           <div className="relative">
             <Link to={"/dashboard/Settings/notification"}>
-              <div className="w-[45px] h-[45px] flex items-center justify-center text-xl rounded-full bg-neutral-100 text-[#2A216D] ">
+              <div onClick={handleOnclick} className="w-[45px] h-[45px] flex items-center justify-center text-xl rounded-full bg-neutral-100 text-[#2A216D] ">
                 <span>
                   <LuBell />
                 </span>
@@ -261,7 +271,7 @@ const Header = () => {
             </Drawer>
 
             <span className="absolute top-0 right-0 -mr-2  w-5 h-5 bg-[#2A216D] text-white text-xs flex items-center justify-center rounded-full">
-              {notificationData?.data?.length || "0"}
+              {unSeenNotification?.length || "0"}
             </span>
           </div>
 
