@@ -1,10 +1,9 @@
 import { Form, Input, Radio, Checkbox, Typography } from "antd";
 import { useGetClientAgentsQuery } from "../redux/api/ordersApi";
-import { useSelector } from "react-redux";
+import { imageUrl } from "../redux/api/baseApi";
 
 export const ContactInforTab = ({ formData, setFormData }) => {
-  const clientId = useSelector((state) => state.logInUser.clientId);
-  const agents = useGetClientAgentsQuery(clientId);
+  const agents = useGetClientAgentsQuery(formData.client);
   const selectedAgent = formData?.linkedAgents;
   const handleFinish = (_, allValues) => {
     setFormData({ ...formData, contactInfo: allValues });
@@ -110,33 +109,29 @@ export const ContactInforTab = ({ formData, setFormData }) => {
             </>
           )}
 
-          {formData?.contactAgent === "true" && (
-            <>
-              <Typography.Title
-                level={5}
-                style={{ textAlign: "left", marginTop: "20px" }}
-              >
-                Linked real estate agent
-              </Typography.Title>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-start",
-                }}
-              >
-                {agents.data?.data?.length > 0 &&
-                  agents.data?.data?.map((agent) => (
-                    <AgentCheckbox
-                      key={agent?._id}
-                      agent={agent}
-                      handleCheckboxChange={handleCheckboxChange}
-                      selectedAgent={selectedAgent}
-                    />
-                  ))}
-              </div>
-            </>
-          )}
+          <Typography.Title
+            level={5}
+            style={{ textAlign: "left", marginTop: "20px" }}
+          >
+            Linked real estate agent
+          </Typography.Title>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+            }}
+          >
+            {agents.data?.data?.length > 0 &&
+              agents.data?.data?.map((agent) => (
+                <AgentCheckbox
+                  key={agent?._id}
+                  agent={agent}
+                  handleCheckboxChange={handleCheckboxChange}
+                  selectedAgent={selectedAgent}
+                />
+              ))}
+          </div>
         </Form>
       </div>
     </div>
@@ -153,10 +148,10 @@ const AgentCheckbox = ({ agent, handleCheckboxChange, selectedAgent }) => {
     >
       <div className="flex items-center gap-5">
         <img
-          className="w-[30px] rounded-full"
+          className="w-[30px] rounded-full h-[30px] object-cover"
           src={
             agent.profile_image
-              ? `${import.meta.env.VITE_BASE_URL}${agent.profile_image}`
+              ? `${imageUrl}${agent.profile_image}`
               : `https://ui-avatars.com/api/?name=${agent.name}`
           }
           alt={agent.name}

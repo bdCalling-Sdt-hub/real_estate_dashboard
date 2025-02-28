@@ -40,23 +40,22 @@ console.log(getProfile?.data?.place_an_order)
       }
     }
 
-    // Step 2: Address Tab Validation
+    // Step 2: Address Tab Validation    
     if (activeTab === 1) {
       const { zipCode, city, streetAddress, streetName, streetNumber } =
         formData.address || {};
-      if (
-        zipCode &&
-        city &&
-        streetAddress &&
-        streetName &&
-        streetNumber &&
-        formData?.pickupKeys
-      ) {
-        setActiveTab(2);
-      } else {
-        message.error("Please enter an address");
+
+      if (!zipCode || !city || !streetAddress || !streetName || !streetNumber) {
+        message.error("Please enter a complete address");
         return;
       }
+
+      if (!formData?.pickupKeys) {
+        message.error("Please enter pickup keys");
+        return;
+      }
+
+      setActiveTab(2);
     }
 
     // Step 3: Contact Info Tab Validation
