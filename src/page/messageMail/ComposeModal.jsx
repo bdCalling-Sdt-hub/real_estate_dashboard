@@ -1,36 +1,111 @@
-import React from "react";
-import { Modal, Form, Input, Button } from "antd";
+import { useEffect, useState } from "react";
+import { Modal, Form, Input, Button, Select } from "antd";
+import { useGetAllEmailsQuery } from "../redux/api/messageApi";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import "./quill.css";
+import parseJWT from "../../utils/parseJWT";
+import { useSelector } from "react-redux";
+import { io } from "socket.io-client";
 
-export const ComposeModal = ({ modal2Open1, setModal2Open1 }) => {
-  const handleFinish = async (values) => {
-    console.log(values);
+export const ComposeModal = ({ composeModalOpen, setComposeModalOpen }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const { data: emails } = useGetAllEmailsQuery({ searchTerm });
+  const [content, setContent] = useState("");
+
+  const emailOptions = emails?.data?.map((e) => ({
+    label: e.email,
+    value: e._id,
+  }));
+
+  const quillConfig = {
+    formats: [
+      "header",
+      "bold",
+      "italic",
+      "underline",
+      "strike",
+      "blockquote",
+      "list",
+      "bullet",
+      "indent",
+    ],
+    modules: {
+      toolbar: [
+        [{ header: [1, 2, false] }],
+        ["bold", "italic", "underline", "strike", "blockquote"],
+        [
+          { list: "ordered" },
+          { list: "bullet" },
+          { indent: "-1" },
+          { indent: "+1" },
+        ],
+      ],
+    },
   };
 
+  const token = useSelector((state) => state.logInUser.token);
+  const { authId, role } = parseJWT(token);
+
+  const [socket, setSocket] = useState(null);
+
+  useEffect(() => {
+    const newSocket = io(
+      `${import.meta.env.VITE_BASE_URL}?id=${authId}&role=${role}`
+    );
+    setSocket(newSocket);
+
+    return () => {
+      newSocket.disconnect();
+    };
+  }, []);
+
+  const handleFinish = async ({ body, subject, to }) => {
+    const payload = {
+      receiverId: to,
+      text: body,
+      subject,
+      email: emailOptions.find((e) => e.value === to).label,
+    };
+
+    socket.emit("new-email-message", payload);
+    setComposeModalOpen(false);
+  };
   return (
     <Modal
       title="New Message"
       centered
-      open={modal2Open1}
-      onCancel={() => setModal2Open1(false)}
-      bodyStyle={{
-        maxHeight: "70vh",
-        overflowY: "auto",
-      }}
+      open={composeModalOpen}
+      onCancel={() => setComposeModalOpen(false)}
       footer={[
-        <Button key="discard" onClick={() => setModal2Open1(false)}>
+        <Button key="discard" onClick={() => setComposeModalOpen(false)}>
           Discard
         </Button>,
-        <Button key="send" type="primary" form="emailForm" htmlType="submit">
+        <Button
+          className="bg-[#2A216D]"
+          key="send"
+          type="primary"
+          form="emailForm"
+          htmlType="submit"
+        >
           Send Mail
         </Button>,
       ]}
     >
-      <Form
-        layout="vertical"
-        id="emailForm"
-        onFinish={handleFinish}
-      >
-        
+      <Form layout="vertical" id="emailForm" onFinish={handleFinish}>
+        <Form.Item
+          name="to"
+          label="To"
+          rules={[{ required: true, message: "Recipient is required" }]}
+        >
+          <Select
+            showSearch
+            placeholder="Enter recipient email"
+            onSearch={(val) => setSearchTerm(val)}
+            options={emailOptions}
+            optionFilterProp="label"
+          />
+        </Form.Item>
 
         <Form.Item
           name="subject"
@@ -45,10 +120,13 @@ export const ComposeModal = ({ modal2Open1, setModal2Open1 }) => {
           label=""
           rules={[{ required: true, message: "Message body is required" }]}
         >
-          <Input.TextArea
-            rows={10}
-            placeholder="Type your message here..."
-            style={{ resize: "none" }}
+          <ReactQuill
+            className="mt-6 custom-quill bg-white"
+            value={content}
+            onChange={setContent}
+            placeholder="Write your email..."
+            formats={quillConfig.formats}
+            modules={quillConfig.modules}
           />
         </Form.Item>
       </Form>

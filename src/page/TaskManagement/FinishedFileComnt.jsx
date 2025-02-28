@@ -229,7 +229,7 @@ export const FinishedFileComnt = ({ fileId }) => {
                           <img
                             src={
                               reply?.comment?.userId?.profile_image
-                                ? `${import.meta.env.VITE_API_URL}/${
+                                ? `${import.meta.env.VITE_BASE_URL}/${
                                     reply?.comment?.userId?.profile_image
                                   }`
                                 : `https://ui-avatars.com/api/?name=${reply?.comment?.userId?.name}`
@@ -333,7 +333,7 @@ const RevisionComponent = ({
               <img
                 src={
                   reply?.comment?.userId?.profile_image
-                    ? `${import.meta.env.VITE_API_URL}/${
+                    ? `${import.meta.env.VITE_BASE_URL}/${
                         reply?.comment?.userId?.profile_image
                       }`
                     : `https://ui-avatars.com/api/?name=${reply?.comment?.userId?.name}`
