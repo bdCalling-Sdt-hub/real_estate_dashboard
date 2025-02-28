@@ -3,7 +3,7 @@ import { Modal, Form, Input, Select, Button } from "antd";
 
 export const ContactCreate = ({ modal2Open, setModal2Open }) => {
   const handleFinish = async (values) => {
-    console.log(values);
+   
   };
 
   return (
@@ -20,7 +20,7 @@ export const ContactCreate = ({ modal2Open, setModal2Open }) => {
         <Button key="cancel" onClick={() => setModal2Open(false)}>
           Cancel
         </Button>,
-        <Button key="save" type="primary" className="bg-[#2A216D]" form="contactForm" htmlType="submit">
+        <Button className="bg-[#2A216D]" key="save" type="primary" form="contactForm" htmlType="submit">
           Save
         </Button>,
       ]}
