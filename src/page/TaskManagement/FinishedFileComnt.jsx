@@ -108,7 +108,12 @@ export const FinishedFileComnt = ({ fileId }) => {
 
     socket.emit(
       "revision-messages",
-      { taskId: id, fileId: fileId, text: comment },
+      {
+        taskId: id,
+        fileId: fileId ? fileId : null,
+        text: comment,
+        types: fileId ? null : "all-revisions",
+      },
       callback
     );
   };
@@ -129,14 +134,12 @@ export const FinishedFileComnt = ({ fileId }) => {
               rows={4}
             />
             <div className="absolute flex gap-3 bottom-6 right-[5px]">
-              {fileId && (
-                <button
-                  onClick={() => handleRequestRevision()}
-                  className="border px-3 rounded"
-                >
-                  Request for revision
-                </button>
-              )}
+              <button
+                onClick={() => handleRequestRevision()}
+                className="border px-3 rounded"
+              >
+                Request for revision
+              </button>
               {isPosting && !isReply ? (
                 <button className="absolute flex gap-3 bottom-6 right-[5px] bg-[#2A216D] text-white px-4 py-2 rounded-md hover:bg-purple-600">
                   <Spin />
