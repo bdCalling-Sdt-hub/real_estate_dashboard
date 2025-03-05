@@ -20,7 +20,6 @@ import { logout } from "../../page/redux/features/auth/authSlice";
 import { useDispatch } from "react-redux";
 import { useGetProfileQuery } from "../../page/redux/api/userApi";
 
-
 const items = [
   {
     key: "dashboard",
@@ -58,12 +57,11 @@ const items = [
     icon: <IoSettingsOutline />,
     link: "/dashboard/settings",
   },
-  
 ];
 
 const SidBar = () => {
-  const{data:getProfile}=useGetProfileQuery();
-  console.log(getProfile?.data?.place_an_order)
+  const { data: getProfile } = useGetProfileQuery();
+  console.log(getProfile?.data?.place_an_order);
   const [selectedKey, setSelectedKey] = useState("dashboard");
   const [expandedKeys, setExpandedKeys] = useState([]);
   const location = useLocation();
@@ -102,21 +100,19 @@ const SidBar = () => {
 
   // Logout Function
   const handleLogout = () => {
-    dispatch(logout())
+    dispatch(logout());
     navigate("/login");
   };
-  console.log("+====",getProfile)
-  const filteredItems = items.filter(item => {
+  console.log("+====", getProfile);
+  const filteredItems = items.filter((item) => {
     if (item.key === "agent" && !getProfile?.data?.can_add_new_agent) {
-      return false;  
+      return false;
     }
     if (item.key === "InvoiceOrder" && !getProfile?.data?.can_see_invoice) {
-      return false;  
+      return false;
     }
     return true;
-   });
-
-
+  });
 
   return (
     <div className="custom-sidebar h-full bg-[#FEFEFE] shadow-sm">
@@ -124,11 +120,14 @@ const SidBar = () => {
       <div className="custom-sidebar-logo flex justify-center mt-5 mb-8">
         <img src={logo} alt="Logo" className="w-[160px]" />
       </div>
-      {getProfile?.data&& getProfile?.data?.place_an_order && (
+      {getProfile?.data && getProfile?.data?.place_an_order && (
         <div className="mx-5 mb-6">
-      <Link to={'/dashboard/create-services'}><button className="bg-[#2A216D] text-white py-2 w-full rounded">+ Create Order</button></Link>
-      </div>
-
+          <Link to={"/dashboard/create-services"}>
+            <button className="bg-[#2A216D] text-white py-2 w-full rounded">
+              + Create Order
+            </button>
+          </Link>
+        </div>
       )}
 
       {/* Sidebar Menu */}
@@ -144,16 +143,15 @@ const SidBar = () => {
               }`}
               onClick={(e) => {
                 if (item.children) {
-                  e.preventDefault(); 
-                  onParentClick(item.key); 
+                  e.preventDefault();
+                  onParentClick(item.key);
                 } else {
-                  setSelectedKey(item.key); 
+                  setSelectedKey(item.key);
                 }
               }}
             >
-              <span  className="w-4 h-4 mr-3" >{item.icon}  </span>
+              <span className="w-4 h-4 mr-3">{item.icon} </span>
               <span className="block w-full text-black">{item.label}</span>
-
 
               {item.children && (
                 <FaChevronRight
@@ -164,7 +162,6 @@ const SidBar = () => {
               )}
             </Link>
 
-        
             {item.children && (
               <div
                 className={`children-menu bg-white -my-2 mx-5  text-black transition-all duration-300 ${
@@ -187,8 +184,8 @@ const SidBar = () => {
                         : "hover:bg-gray-200"
                     }`}
                     onClick={() => {
-                      setSelectedKey(child.key); 
-                      setExpandedKeys([]); 
+                      setSelectedKey(child.key);
+                      setExpandedKeys([]);
                     }}
                   >
                     <span className="block w-full text-black">
