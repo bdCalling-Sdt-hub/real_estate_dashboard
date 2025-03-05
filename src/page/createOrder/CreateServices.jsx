@@ -112,8 +112,7 @@ console.log(getProfile?.data?.place_an_order)
       contactOwner: formData.contactAgent === "false" ? true : false,
       address: formData.address,
       contactInfo: formData.contactInfo,
-      linkedAgents:
-        formData.contactAgent === "true" ? [formData.linkedAgents._id] : [],
+      linkedAgents: formData?.linkedAgents?._id ? [formData?.linkedAgents?._id] : [],
       locations: {
         lat: formData.address.lat,
         lng: formData.address.lng,

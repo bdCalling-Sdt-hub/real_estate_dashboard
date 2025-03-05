@@ -8,8 +8,19 @@ const dashboardApi = baseApi.injectEndpoints({
     getRecentOrder: builder.query({
       query: (clientId) => `/client/recent-deliver-order?clientId=${clientId}`,
     }),
+    getMedia: builder.query({
+      query: () => {
+        return {
+          url: `/member/get-adds`,
+          method: "GET",
+        };
+      },
+    }),
   }),
 });
 
-export const { useGetUpcomingAppointmentQuery, useGetRecentOrderQuery } =
-  dashboardApi;
+export const {
+  useGetUpcomingAppointmentQuery,
+  useGetRecentOrderQuery,
+  useGetMediaQuery,
+} = dashboardApi;

@@ -51,7 +51,7 @@ const Messages = () => {
   }, [messages]);
 
   useEffect(() => {
-    const newSocket = io(`http://10.0.60.118:5002?id=${authId}`);
+    const newSocket = io(`${import.meta.env.VITE_BASE_URL}?id=${authId}`);
     setSocket(newSocket);
 
     newSocket.emit("order-messages", {
@@ -103,8 +103,11 @@ const Messages = () => {
               {(msg?.senderId?._id || msg?.senderId) !== authId && (
                 <img
                   src={
-                    msg.senderId.profile_image ||
-                    `https://ui-avatars.com/api/?name=${msg.senderId.name}`
+                    msg?.senderId?.profile_image
+                      ? `${import.meta.env.VITE_BASE_URL}/${
+                          msg?.senderId?.profile_image
+                        }`
+                      : `https://ui-avatars.com/api/?name=${msg?.senderId?.name}`
                   }
                   alt="User"
                   className="w-10 h-10 rounded-full mr-3"
