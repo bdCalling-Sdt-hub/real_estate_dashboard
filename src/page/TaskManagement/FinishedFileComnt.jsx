@@ -25,7 +25,7 @@ export const FinishedFileComnt = ({ fileId }) => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const newSocket = io(`http://10.0.60.118:5002?id=${authId}`);
+    const newSocket = io(`${import.meta.env.VITE_BASE_URL}?id=${authId}`);
     setSocket(newSocket);
 
     return () => {
